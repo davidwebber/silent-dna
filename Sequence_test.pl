@@ -1,8 +1,13 @@
 #!/usr/bin/perl -w
 
-# note to self: use bio seqIO
+use Bio::SeqIO;
 
-#print "hello Ella\n";
+#modify the inputfile filename as needed
+$inputfile = "SampleFile.txt";
+
+# you shouldn't have to modify anything below this line
+
+#print "hello world\n";
 
 #read in the reference sequence
 
@@ -43,11 +48,24 @@ if ($i != $j){
   print "uh oh, there's a mismatch between the names of things and the sequences\n";
 }
 
+# read in the data file
+# requires "use Bio::SeqIO" above
+#open INFILE, 'SampleFile.txt' or die $! ;
+#@lines=<INFILE>;
+#close(INFILE);
+$seqio_obj = Bio::SeqIO->new(-file => $inputfile, -format => "fasta" );
 
-#read in the data file
-open INFILE, 'SampleFile.txt' or die $! ;
-@lines=<INFILE>;
-close(INFILE);
+$seq_obj = $seqio_obj->next_seq;  # for testing 
 
+#print $seq_obj->display_id."\n";
+#print $seq_obj->desc."\n";
+#print $seq_obj->seq."\n";
+print substr $seq_obj->seq,0,4;
+exit;
 
+while ($seq_obj = $seqio_obj->next_seq){   
+    # print the sequence   
+    print $seq_obj->display_id,"\n";
+    #print substr($seq_obj->seq
+}
 
