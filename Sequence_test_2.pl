@@ -2,6 +2,14 @@
 
 use Bio::SeqIO;
 
+#modify the inputfile filename as needed
+$inputfile = "SampleFile.txt";
+
+# you shouldn't have to modify anything below this line
+$debug=1; #set to 1 for some debugging output
+
+$nSilent=20;
+
 @index = ("1-81-S2 (ref)", #{{{
 "1c1",
 "1c2",
@@ -23,7 +31,7 @@ use Bio::SeqIO;
 "7c1",
 "uss"); #}}}
 
-@R1_seq = ("CGTCACCGAGTATTACCTGAATC", #{{{
+@R1=("CGTCACCGAGTATTACCTGAATC", #{{{
 "CGTTGCCGGGTATTGCCCGAATC",
 "CGTTACCGGGTATTGCCCGAATC",
 "CGTTGCCGGGTATTGCCCGAATC",
@@ -41,7 +49,8 @@ use Bio::SeqIO;
 "CGTTACCGGGTATTACCTGAATA",
 "CGTTGCCGGGTATTACCCGAATC",
 "CGTCACCGAGTATTACCCGAATA",
-"CGTCACCGAGTATTACCTGAATC"); #}}}
+"CGTCACCGAGTATTACCTGAATC",
+"XXXX"); #}}}
 
 @R2=("ATATGGCCGAAAGACAACACTTCT", #{{{
 "ACATGGCCGAAAGACAACGGTGAT",
@@ -232,7 +241,32 @@ use Bio::SeqIO;
 "CGATAAATCAACTGCCAAA",
 "CGATGAACCAACTGCCACCTA"); #}}}
 
-print $R1_seq[1];
+if ("Hello World" =~ /Hello/){
+  print "dude, it worked!\n";
+}
 
+@R = (@R1, @R2);
+print $R[0][0];
+
+# read in the data file
+$seqio_obj = Bio::SeqIO->new(-file => $inputfile, -format => "fasta" );
+
+if ($debug==1){ # for testing 
+  for ($i=0;$i<10;$i++){
+    $seq_obj = $seqio_obj->next_seq;
+  } 
+  print $seq_obj->display_id."\n";
+  print $seq_obj->desc."\n";
+  print $seq_obj->seq."\n";
+
+  for ($i=0; $i<$nSilent; $i++){
+    if ( $seq_obj->seq =~ /$R1[$i]/ ){
+      print $index[$i]." "
+    } 
+  } 
+
+
+  exit;
+}
 
 
