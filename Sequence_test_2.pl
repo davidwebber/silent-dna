@@ -28,7 +28,7 @@ $nRegions=10;
     159,
     187,
     223,
-    250, # region 4 unknown? TODO/PLACEHOLDER
+    253,
     273,
     289,
     315,
@@ -40,7 +40,7 @@ $nRegions=10;
     181-159+1, #make the computer do the subtraction
     210-187+1,
     239-223+4,
-    21,    #region 4 min/max unknown TODO
+    273-253+1,    
     290-273+1,
     305-289+1,
     332-315+1,
