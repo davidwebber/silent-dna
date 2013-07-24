@@ -264,7 +264,7 @@ $nRegions=10;
     "CGATGAATCATCTGCCGTT",
     "CGATAAATCATCTGCCGTT",
     "CGATGAATCATCGTTGCCGG",
-    "CGATAAACATGATGCCAAAGA",
+    "CGATAAACATGATGCCAAATG", 
     "TGATACGTCATCTGCCAAA",
     "CGATAAATCATCTGCCACCTA",
     "CGATGAATCATCTGCCACCTA",
@@ -369,6 +369,9 @@ while ($seq_obj = $seqio_obj->next_seq) {
       }
       if ( $substr =~ /$search/ ){
 	print $index[$i]," ";
+        if ($index[$i] eq "ref"){
+           last;  # if it's ref, don't bother checking the others
+        }
       } 
     } 
     print ",";
