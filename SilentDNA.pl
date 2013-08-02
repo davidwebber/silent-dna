@@ -17,7 +17,7 @@ $fudge_factor = 2;  #the number of insertions or deletions allowed before the se
 # you shouldn't have to modify anything below this line
 ##########################################################
 
-$debug=1; #set to 1 for some debugging output
+$debug=0; #set to 1 for some debugging output
 
 $nSilent=20; #number of silent copies, including the reference
 
@@ -346,7 +346,7 @@ $counter=1;
 while ($seq_obj = $seqio_obj->next_seq) {   
   print $counter,",";
   $counter+=1;
-  if ($counter==4) {exit;}
+  #if ($counter==4) {exit;}
 # print the display_id   
   print $seq_obj->display_id,",";
   
@@ -361,19 +361,19 @@ while ($seq_obj = $seqio_obj->next_seq) {
     while (my ($key_seq,$silent_copy) = each $R{$r}){
     
       if ($debug>=1) {
-	    print "\$r=$r, $silent_copy\n"
+	      print "\$r=$r, $silent_copy\n"
       }
       my $substr = substr $seq_obj->seq, $region_min[$r]-$offset-$fudge_factor, $region_length[$r]+2*$fudge_factor;
       my $search = $key_seq;
       if ($debug>=1) {
-	    print "\$substr=".$substr."\n";
-	    print "\$search=".$search."\n";
+	      print "\$substr=".$substr."\n";
+	      print "\$search=".$search."\n";
       }
       if ( $substr =~ /$search/ ){
-	    print $silent_copy," ";
-        if ($silent_copy eq "ref"){
-           last;  # if it's ref, don't bother checking the others
-        }
+	      print $silent_copy," ";
+        #if ($silent_copy eq "ref"){
+        #   last;  # if it's ref, don't bother checking the others
+        #}
       } 
     } 
         print ",";
