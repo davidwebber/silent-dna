@@ -17,7 +17,7 @@ $fudge_factor = 2;  #the number of insertions or deletions allowed before the se
 # you shouldn't have to modify anything below this line
 ##########################################################
 
-$debug=0; #set to 1 for some debugging output
+$debug=1; #set to 1 for some debugging output
 
 $nSilent=20; #number of silent copies, including the reference
 
@@ -347,6 +347,7 @@ $counter=1;
 while ($seq_obj = $seqio_obj->next_seq) {   
   print $counter,",";
   $counter+=1;
+  if ($counter==4) {exit;}
 # print the display_id   
   print $seq_obj->display_id,",";
   
