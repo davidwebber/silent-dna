@@ -15,7 +15,7 @@ $inputfile = "SampleFile.txt";
 
 $offset=91;  # offset between reference sequence and reads
 
-$fudge_factor = 2;  #the number of insertions or deletions allowed before the sequence of interest
+$fudge_factor = 3;  #the number of insertions or deletions allowed before the sequence of interest
 
 
 ##########################################################
@@ -97,6 +97,7 @@ $R{1}{'CGTCACCGAGTATTACCCGAATA'}='2c1 6c3';
 $R{1}{'CGTCACCGAGTATTACCTGAATC'}='ref'; # uss, 7c1, 3c3
 $R{1}{'CGTTGCCGAGTATTACCTGAATC'}='var163';
 $R{1}{'CGTCACCGAGTATTACCTGAATA'}='2c1 6c1 6c3 (C181A)';
+$ref_length[1]=length('CGTCACCGAGTATTACCTGAATA');
 
 # Region 2
 #$R{2}{'ACATGGCCGAAAGACAACGGTGAT'}='1c1';
@@ -122,6 +123,7 @@ $R{2}{'ATATGGCCGAAAGACAACACTTCT'}='ref'; # 2c6, 3c3
 $R{2}{'ACATGGCCGAAAGACAACACTTCT'}='1c1 7c1 (T188A)';
 $R{2}{'GAATGGCCGAAAGACAACACTTCT'}='var (A187G)';
 $R{2}{'ATATGGCCGGAAAACAACACTTCT'}='var (195/199)';
+$ref_length[2]=length('ATATGGCCGAAAGACAACACTTCT');
 
 # Region 3
 $R{3}{'TCCCCCGCCGACAAAATCAA'}   = '1c1';
@@ -145,6 +147,7 @@ $R{3}{'TCCTCCGCCACCGACATCAA'}   = '7c1';
 $R{3}{'TCCTCCGCCGAAATCAA'}      = 'uss';
 $R{3}{'TCCGCTTCAACAATCAA'}      = 'ref'; #2c1, 3c2
 $R{3}{'TCCGCTTCAACAATCAT'}      = '1c5 (A239T)';
+$ref_length[3]=length('TCCGCTTCAACAATCAA');
 
 # Region 4
 #$R{4}{'CAGAAAGTTGAAGTCGCAAAA'} = '1c1';
@@ -169,6 +172,7 @@ $R{4}{'AAAAGCGTTACGGTCGCAAAC'} = 'uss';
 $R{4}{'CAGAAAGTTGAAGTCGCAAAA'} = 'ref'; #1c1, 2c1, 3c1
 #CAGAAAGTTGAAGTCACAAAC = 2c2, 3c2, 3c3 (this is 268/273)
 $R{4}{'CAGAAAGTTGAAGTCGAAAAC'} = '1c5 2c3 6c1 var(269/273)';
+$ref_length[4]=length('CAGAAAGTTGAAGTCGCAAAA');
 
 
 # Region 5
@@ -192,7 +196,8 @@ $R{5}{'AGGCGTCGTTACCGCCAA'} = '6c3';
 #$R{5}{'CGGCGTCGTTACCGCCGA'} = '7c1';
 $R{5}{'CGGCGTCGTTACCGCCGA'} = '6c2 7c1 uss';
 $R{5}{'AGGCGTCGTTACCGCCCA'} = 'ref'; # 1c2, 2c1, 3c1
-#HERE
+$ref_length[5]=length('AGGCGTCGTTACCGCCCA');
+
 # Region 6
 $R{6}{'GAAATGAAACCAAGCGG'} = '1c1';
 $R{6}{'CAAATGAATCCAAGCGG'} = '1c2';
@@ -214,6 +219,7 @@ $R{6}{'AAAATGCTTTCAAGCGG'} = '3c3 6c3';
 $R{6}{'GAAATGAAATCAGACGG'} = '6c2 7c1';
 $R{6}{'GAAATGGCTTCAAGCGG'} = 'uss';
 $R{6}{'CAAATGGCTTCAACCGG'} = 'ref'; # 2c1, 3c1, 3c2, 6c1
+$ref_length[6]=length('CAAATGGCTTCAACCGG');
 
 # Region 7
 #$R{7}{'AGAAATCAAAGGCAAAAA'} = '1c1';
@@ -238,6 +244,7 @@ $R{7}{'AGAAATCAAAGGCAAAAG'} = 'uss';
 $R{7}{'AGAAATCCAAGACAAAAA'} = 'ref'; #2c1 
 #AGAAATCCAAGGCAAAAA = var  (this is the A326G)
 #AGAAATCAAAGGCAAAAA = var (this is 322/326)
+$ref_length[7]=length('AGAAATCCAAGACAAAAA');
 
 
 
@@ -265,6 +272,7 @@ $R{8}{'CCAGGCGTCAAGACGGTTC'} = '3c2 uss varA350G';
 $R{8}{'CCAAGCGTCAAGACGGTTC'} = 'ref'; # 2c1 2c4 3c1 6c1
 #CCAGGCGTCAAGACGGTTC = var (this is the A350G)
 #CCAAGCGTGAAAACGGTTC = var (this is 355/358)
+$ref_length[8]=length('CCAAGCGTCAAGACGGTTC');
 
 # Region 9
 $R{9}{'AAGCGCGACGCCGGCGCCAAAGCCGACGACGTCAAAGCCGACGCCGCCAACGCCATCGAA'}                   = '1c1';
@@ -290,6 +298,7 @@ $R{9}{'ACGCGCACCGGCGACAACGACGACACCGTTGCCGACGCCAACAACGCCATCGAC'}                 
 $R{9}{'CAGCGCACCGGCGACAACGACGACACCGTTGCCGACGCCAACAACGCCATCGAC'}                         = '2c2';
 $R{9}{'AAGCGCACCGGCGACAACGACGACACCGTTGCCGACGCCAACAACGCCATCGAC'}                         = 'var';
 $R{9}{'ACGCGCACCGGCGACAACGACGACACCGTTGCCGACGCCAACAACGCCATCGAA'}                         = 'var';
+$ref_length[9]=length('ACGCGCACCGGCGACAACGACGACACCGTTGCCGACGCCAACAACGCCATCGAC');
 
  
 #TODO
@@ -322,6 +331,7 @@ $R{10}{'CGATGAATCATCTGCCACCTA'}  = 'ref'; #1c1 1c2 2c4 3c1
 $R{10}{'TGATGAATCATCTGCCACCTA'}  = '2c2';
 $R{10}{'CGATGAATCATCTGCCAAATA'}  = 'var491';
 #CGATAAATCATCTGCCACCTA = var
+$ref_length[10]=length('CGATGAATCATCTGCCACCTA');
 
 
 if ($debug>0){
@@ -378,41 +388,62 @@ print "counter,ID,region1,region2,region3,region4,region5,region6,region7,region
 
 $counter=1;
 while ($seq_obj = $seqio_obj->next_seq) {   
-  print $counter,",";
-  $counter+=1;
-  #if ($counter==4) {exit;}
-# print the display_id   
-  print $seq_obj->display_id,",";
+
+    $length_shift = 0; # accumulated shift in the position from long or short regions
+    $this_offset = $offset; # this offset may change eg if it's a short read
   
-  #check sequence is long enough to run the tests
-  if (length($seq_obj->seq) < $region_min[$nRegions]+$region_length[$nRegions]){ #+2*$fudge_factor){
-    print "error: sequence too short\n";
-    #TODO continue testing the latter part of the sequence
-    next;
-  }
+    print $counter,",";
+    $counter+=1;
+    #if ($counter==4) {exit;}
+    # print the display_id   
+    print $seq_obj->display_id,",";
 
-  for ($r=1; $r<=$nRegions; $r++){ #start later for debugging
-    while (my ($key_seq,$silent_copy) = each $R{$r}){
-    
-      if ($debug>=1) {
-	      print "\$r=$r, $silent_copy\n"
-      }
-      my $substr = substr $seq_obj->seq, $region_min[$r]-$offset-$fudge_factor, $region_length[$r]+2*$fudge_factor;
-      my $search = $key_seq;
-      if ($debug>=1) {
-	      print "\$substr=".$substr."\n";
-	      print "\$search=".$search."\n";
-      }
-      if ( $substr =~ /$search/ ){
-	      print $silent_copy," ";
-        #if ($silent_copy eq "ref"){
-        #   last;  # if it's ref, don't bother checking the others
-        #}
-      } 
-    } 
+    #check sequence is long enough to run the tests
+    if (length($seq_obj->seq) < $region_min[$nRegions]+$region_length[$nRegions]){ #+2*$fudge_factor){
+        #print "error: sequence too short\n";
+        $this_offset=271;
+        #TODO continue testing the latter part of the sequence
+        #next; #go to next sequence
+    }
+
+
+    for ($r=1; $r<=$nRegions; $r++){ 
+        my $substr;
+        if ($r==11) #index region 10 from the end
+        {
+            $substr = substr $seq_obj->seq, $region_min[$r]-$this_offset-$fudge_factor+$length_shift, $region_length[$r]+2*$fudge_factor;
+            #print length($seq_obj->seq) - $region_length[$r]-$fudge_factor," ";
+        } else {
+            $substr = substr $seq_obj->seq, $region_min[$r]-$this_offset-$fudge_factor+$length_shift, $region_length[$r]+2*$fudge_factor;
+            #print $region_min[$r]-$this_offset-$fudge_factor+$length_shift," ";
+        } 
+
+        while (my ($key_seq,$silent_copy) = each $R{$r}){
+
+            if ($debug>=1) {
+                print "\$r=$r, $silent_copy\n"
+            }
+            # substr source start length
+ 
+            my $search = $key_seq;
+            if ($debug>=1) {
+                print "\$substr=".$substr."\n";
+                print "\$search=".$search."\n";
+            }
+            if ( $substr =~ /$search/ ){
+                print $silent_copy," ";
+                $length_shift += length($search) - $ref_length[$r];
+                if ($debug>=1) {
+                    print @-,"-",@+," ";
+                    print $length_shift;
+                }
+                #if ($silent_copy eq "ref"){
+                #   last;  # if it's ref, don't bother checking the others
+                #}
+            }        
+        } 
         print ",";
-  }
-  print "\n";
-
-
+    }
+    print length($seq_obj->seq);
+    print "\n";
 }
