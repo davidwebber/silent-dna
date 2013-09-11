@@ -345,39 +345,37 @@ print "counter,ID,region1,region2,region3,region4,region5,region6,region7,region
 
 $counter=1;
 while ($seq_obj = $seqio_obj->next_seq) {   
-  print $counter,",";
-  $counter+=1;
-  #if ($counter==4) {exit;}
-# print the display_id   
-  print $seq_obj->display_id,",";
-  
-  #check sequence is long enough to run the tests
-  if (length($seq_obj->seq) < $region_min[$nRegions]+$region_length[$nRegions]){ #+2*$fudge_factor){
-    print "error: sequence too short\n";
-    next;
-  }
+    print $counter,",";
+    $counter+=1;
+    #if ($counter==4) {exit;}
+    # print the display_id   
+    print $seq_obj->display_id,",";
 
-  for ($r=1; $r<=$nRegions; $r++){ #start later for debugging
-    for ($i=0; $i<$nSilent; $i++){
-      if ($debug>=1) {
-	print "\$r=$r, \$i=$i\n"
-      }
-      my $substr = substr $seq_obj->seq, $region_min[$r]-$offset-$fudge_factor, $region_length[$r]+2*$fudge_factor;
-      my $search = $R[$r][$i];
-      if ($debug>=1) {
-	print "\$substr=".$substr."\n";
-	print "\$search=".$search."\n";
-      }
-      if ( $substr =~ /$search/ ){
-	print $index[$i]," ";
-        if ($index[$i] eq "ref"){
-           last;  # if it's ref, don't bother checking the others
-        }
-      } 
-    } 
-    print ",";
-  }
-  print "\n";
+    #check sequence is long enough to run the tests
+    if (length($seq_obj->seq) < $region_min[$nRegions]+$region_length[$nRegions]){ #+2*$fudge_factor){
+        print "error: sequence too short\n";
+        next;
+    }
 
-
+    for ($r=1; $r<=$nRegions; $r++){ #start later for debugging
+        for ($i=0; $i<$nSilent; $i++){
+            if ($debug>=1) {
+                print "\$r=$r, \$i=$i\n"
+            }
+            my $substr = substr $seq_obj->seq, $region_min[$r]-$offset-$fudge_factor, $region_length[$r]+2*$fudge_factor;
+            my $search = $R[$r][$i];
+            if ($debug>=1) {
+                print "\$substr=".$substr."\n";
+                print "\$search=".$search."\n";
+            }
+            if ( $substr =~ /$search/ ){
+                print $index[$i]," ";
+                if ($index[$i] eq "ref"){
+                    last;  # if it's ref, don't bother checking the others
+                }
+            } 
+        } 
+        print ",";
+    }
+    print "\n";
 }
