@@ -3,15 +3,20 @@
 # find key sequences in an input file.
 # a keyword for incomplete code is TODO
 
-# TODO tolerate short reads
-# TODO implement short regions in region 9 
-# TODO implement a "verdict" column
-# TODO try to index region 10 from the right, since R9 length varies
+# sequences are labeled according to specific silent copy names.
+# if a sequence is tagged but has no specific silent copy, the keyword is "var"
+
+# DONE   tolerate short reads
+# DELETE implement short regions in region 9 
+# TODO   implement a "verdict" column
+# TODO   try to index region 10 from the right, since R9 length varies
+# TODO   count the number of empty cells on each row
 
 use Bio::SeqIO;
 
 #modify the inputfile filename as needed
-$inputfile = "SampleFile.txt";
+#$inputfile = "SampleFile.txt";
+$inputfile = "MID24_FA1090.fna";
 
 $offset=91;  # offset between reference sequence and reads
 
@@ -82,7 +87,7 @@ $R{1}{'AGTTGCCGGGTATTGCCTGAATC'}='1c4';
 #$R{1}{'CGTTACCGAGTATTACCTGAATC'}='1c5';
 $R{1}{'CGTCACCGAATATTACCCGAATA'}='2c1';
 $R{1}{'CGTTACCGAGTATTGCCCGAATC'}='2c2';
-$R{1}{'CGTTACCGAGTATTACCTGAATC'}='1c5 2c3 var162';
+$R{1}{'CGTTACCGAGTATTACCTGAATC'}='1c5 2c3 v162';
 $R{1}{'GGTTGCCGGGTATTGCCTGAATC'}='2c4';
 #$R{1}{'CGTTGCCGGGTATTACCTGAATC'}='2c5';
 $R{1}{'CGTTACCGGGTATTGCCCGAATC'}='1c2 2c6';
@@ -95,7 +100,7 @@ $R{1}{'CGTCACCGAGTATTACCCGAATA'}='2c1 6c3';
 #$R{1}{'CGTCACCGAGTATTACCTGAATC'}='7c1';
 #$R{1}{'CGTCACCGAGTATTACCTGAATC'}='uss';
 $R{1}{'CGTCACCGAGTATTACCTGAATC'}='ref'; # uss, 7c1, 3c3
-$R{1}{'CGTTGCCGAGTATTACCTGAATC'}='var163';
+$R{1}{'CGTTGCCGAGTATTACCTGAATC'}='v163';
 $R{1}{'CGTCACCGAGTATTACCTGAATA'}='2c1 6c1 6c3 (C181A)';
 $ref_length[1]=length('CGTCACCGAGTATTACCTGAATA');
 
@@ -162,7 +167,7 @@ $R{4}{'AAAGAGGTTGAAGTTAAAAAC'} = '1c3';
 $R{4}{'AAAAGCGTTACGGTCGCAAAA'} = '1c2 1c4 2c4 2c5'; 
 $R{4}{'CAGAAAGTTGAAGTCAACAAC'} = '2c6';
 #$R{4}{'CAGAAAGTTGAAGTCGCAAAA'} = '3c1';
-$R{4}{'CAGAAAGTTGAAGTCACAAAC'} = '2c2 3c2 3c3 var(268/273)';
+$R{4}{'CAGAAAGTTGAAGTCACAAAC'} = '2c2 3c2 3c3 v(268/273)';
 $R{4}{'GAAAGCGTTACGGTCACAAAC'} = '2c2 3c3';
 $R{4}{'AAGGAAGTTAAAGTCGAAAAC'} = '1c5 2c3 6c1';
 #$R{4}{'CAAAGCGTTACGGTCGCAAAC'} = '6c2';
@@ -171,7 +176,7 @@ $R{4}{'CAAAGCGTTACGGTCGCAAAC'} = '6c2 7c1';
 $R{4}{'AAAAGCGTTACGGTCGCAAAC'} = 'uss';
 $R{4}{'CAGAAAGTTGAAGTCGCAAAA'} = 'ref'; #1c1, 2c1, 3c1
 #CAGAAAGTTGAAGTCACAAAC = 2c2, 3c2, 3c3 (this is 268/273)
-$R{4}{'CAGAAAGTTGAAGTCGAAAAC'} = '1c5 2c3 6c1 var(269/273)';
+$R{4}{'CAGAAAGTTGAAGTCGAAAAC'} = '1c5 2c3 6c1 v(269/273)';
 $ref_length[4]=length('CAGAAAGTTGAAGTCGCAAAA');
 
 
@@ -237,8 +242,8 @@ $R{7}{'AGAAATCAAAGACAAAAG'} = '2c3';
 #$R{7}{'AGAAATCAAAGGCAAAAA'} = '3c2';
 #$R{7}{'AGAAATCCAAGGCAAAAG'} = '3c3';
 $R{7}{'TGAAATCAAAGGCAAAAA'} = '1c3 1c4 2c2 2c4 6c1';
-$R{7}{'AGAAATCAAAGGCAAAAA'} = '1c1 3c2 6c2 var322/326';
-$R{7}{'AGAAATCCAAGGCAAAAA'} = '2c5 3c1 6c3 varA362G';
+$R{7}{'AGAAATCAAAGGCAAAAA'} = '1c1 3c2 6c2 v322/326';
+$R{7}{'AGAAATCCAAGGCAAAAA'} = '2c5 3c1 6c3 vA362G';
 $R{7}{'AGAAATCCAAGGCAAAAG'} = '2c6 3c3 7c1';
 $R{7}{'AGAAATCAAAGGCAAAAG'} = 'uss';
 $R{7}{'AGAAATCCAAGACAAAAA'} = 'ref'; #2c1 
@@ -258,7 +263,7 @@ $R{8}{'CCAAGCGTCAAGACGGTC'}  = '1c4';
 $R{8}{'CCAAGCGTCAAGCCGGTTC'} = '2c2';
 #$R{8}{'CCAAGCGTGAAAACGGTTC'} = '2c3';
 #$R{8}{'CCAAGCGTCAAGACGGTTC'} = '2c4';
-$R{8}{'CCAAGCGTGAAAACGGTTC'} = '1c2 1c5 2c3 2c5 var355/358';
+$R{8}{'CCAAGCGTGAAAACGGTTC'} = '1c2 1c5 2c3 2c5 v355/358';
 $R{8}{'CCAAGCGTGAAAACGGTC'}  = '2c6';
 #$R{8}{'CCAAGCGTCAAGACGGTTC'} = '3c1';
 #$R{8}{'CCAGGCGTCAAGACGGTTC'} = '3c2';
@@ -267,8 +272,8 @@ $R{8}{'CCAAGCGTGAAAACGGTC'}  = '2c6';
 $R{8}{'GCAGGCGTGAAAACGGTTC'} = '6c2';
 $R{8}{'CCAAGCGTGAAGCCGGTTC'} = '3c3 6c3';
 $R{8}{'CCAGGCGTGAAGCCGGTTC'} = '7c1';
-$R{8}{'GCGTGAAGCCGGTTC'} = 'var355/359';
-$R{8}{'CCAGGCGTCAAGACGGTTC'} = '3c2 uss varA350G';
+$R{8}{'GCGTGAAGCCGGTTC'} = 'v355/359';
+$R{8}{'CCAGGCGTCAAGACGGTTC'} = '3c2 uss vA350G';
 $R{8}{'CCAAGCGTCAAGACGGTTC'} = 'ref'; # 2c1 2c4 3c1 6c1
 #CCAGGCGTCAAGACGGTTC = var (this is the A350G)
 #CCAAGCGTGAAAACGGTTC = var (this is 355/358)
@@ -315,7 +320,7 @@ $R{10}{'CGATAAATCATCTGCCGTT'}    = '1c4';
 #$R{10}{'CGATGAATCATCGTTGCCGG'}   = '1c5';
 $R{10}{'CGATAAACATGATGCCAAATG'}  = '2c1';
 $R{10}{'TGATACGTCATCTGCCAAA'}    = '2c2';
-$R{10}{'CGATAAATCATCTGCCACCTA'}  = '2c3 var';
+$R{10}{'CGATAAATCATCTGCCACCTA'}  = '2c3'; #also a var
 #$R{10}{'CGATGAATCATCTGCCACCTA'}  = '2c4';
 #$R{10}{'CGATGAATCATCGTTGCCGG'}   = '2c5';
 $R{10}{'CGATGAATCATCGTTGCCGG'}   = '1c5 2c5 2c6';
@@ -328,7 +333,6 @@ $R{10}{'CGATAAATCAACTGCCGTT'}    = '3c2 6c3';
 $R{10}{'CGATAAATCAACTGCCAAA'}    = '7c1';
 $R{10}{'CGATGAACCAACTGCCACCTA'}  = 'uss';
 $R{10}{'CGATGAATCATCTGCCACCTA'}  = 'ref'; #1c1 1c2 2c4 3c1
-$R{10}{'TGATGAATCATCTGCCACCTA'}  = '2c2';
 $R{10}{'CGATGAATCATCTGCCAAATA'}  = 'var491';
 #CGATAAATCATCTGCCACCTA = var
 $ref_length[10]=length('CGATGAATCATCTGCCACCTA');
@@ -383,14 +387,41 @@ if ($debug>=2){ # for testing
   exit;
 }
 
+
+
+sub verdict{
+    my @result = @_;
+    my $resultString = join(",",@result);
+    #print "hello\n";
+    #print $resultString."\n";
+    my $nRef =()= $resultString =~ /ref/gi;
+    if ($nRef==10){
+        print "ref ,";
+    } elsif ($resultString =~ /var/){
+        #if it's var, just print var
+        print "var ,";
+    } else {
+        #TODO bitwise AND.  map each silent copy name to binary and do the bitwise and;
+        print "-- ,";
+    }
+
+}
+
+
+
 #header
-print "counter,ID,region1,region2,region3,region4,region5,region6,region7,region8,region9,region10\n";
+print "counter,ID,region1,region2,region3,region4,region5,region6,region7,region8,region9,region10,nEmpty,verdict,basepairs\n";
+my @result;
 
 $counter=1;
 while ($seq_obj = $seqio_obj->next_seq) {   
 
     $length_shift = 0; # accumulated shift in the position from long or short regions
     $this_offset = $offset; # this offset may change eg if it's a short read
+    for ($r=0; $r<=$nRegions; $r++){
+        $result[$r]=" ";
+    }
+
   
     print $counter,",";
     $counter+=1;
@@ -398,16 +429,22 @@ while ($seq_obj = $seqio_obj->next_seq) {
     # print the display_id   
     print $seq_obj->display_id,",";
 
+    $rStart=1;
     #check sequence is long enough to run the tests
     if (length($seq_obj->seq) < $region_min[$nRegions]+$region_length[$nRegions]){ #+2*$fudge_factor){
         #print "error: sequence too short\n";
         $this_offset=271;
+        print "short,short,short,short,short,";
+        $rStart=6;
+        for ($r=1; $r<6; $r++){
+            $result[$r]="short";
+        }
         #TODO continue testing the latter part of the sequence
         #next; #go to next sequence
     }
 
 
-    for ($r=1; $r<=$nRegions; $r++){ 
+    for ($r=$rStart; $r<=$nRegions; $r++){ 
         my $substr;
         if ($r==11) #index region 10 from the end
         {
@@ -432,6 +469,7 @@ while ($seq_obj = $seqio_obj->next_seq) {
             }
             if ( $substr =~ /$search/ ){
                 print $silent_copy," ";
+                $result[$r]=$silent_copy;
                 $length_shift += length($search) - $ref_length[$r];
                 if ($debug>=1) {
                     print @-,"-",@+," ";
@@ -444,6 +482,22 @@ while ($seq_obj = $seqio_obj->next_seq) {
         } 
         print ",";
     }
-    print length($seq_obj->seq);
-    print "\n";
+
+    print ","; #nEmpty goes here TODO
+
+    &verdict(@result);
+
+    print length($seq_obj->seq); #debug
+    
+    print "\n"; # end of line
+
+    
+    if ($debug>=1){
+        print "                 ,";
+        for ($r=1;$r<=$nRegions;$r++){
+            print $result[$r]." ,";
+        }
+        print "\n";
+    }
+
 }
