@@ -11,6 +11,7 @@
 # TODO   implement a "verdict" column
 # TODO   try to index region 10 from the right, since R9 length varies
 # TODO   count the number of empty cells on each row
+# TODO   columns for counts of "var (any incl named)", "blank", and "ref"
 
 use Bio::SeqIO;
 
