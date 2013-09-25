@@ -16,7 +16,7 @@ use Bio::SeqIO;
 
 #modify the inputfile filename as needed
 #$inputfile = "SampleFile.txt";
-$inputfile = "MID24_FA1090.fna";
+ $inputfile = "MID24_FA1090.fna";
 
 $offset=91;  # offset between reference sequence and reads
 
@@ -345,6 +345,7 @@ if ($debug>0){
 }
 
 
+
 if ($debug>0){
   print $R[2][0]."\n";
 }
@@ -387,22 +388,90 @@ if ($debug>=2){ # for testing
   exit;
 }
 
+sub printNvar{
+    my @result = @_;
+    my $total=0;
+    my $i=1;
+    for ($i=1; $i<=$nRegions; $i++){
+        if ($result[$i] ne " " && $result[$i] ne "ref" && $result[$i] ne "short"){
+            $total++;
+        }
+    }
+    print $total.",";
+}
 
+sub printNblank{
+    my @result = @_;
+    my $total=0;
+    my $i=1;
+    for ($i=1; $i<=$nRegions; $i++){
+        if ($result[$i] eq " "){
+            $total++;
+        }
+    }
+    print $total.",";
+}
 
-sub verdict{
+$bitmap{'var'}   = 0b0000000000000000000;
+$bitmap{'1c1'}   = 0b0000000000000000001;
+$bitmap{'1c2'}   = 0b0000000000000000010;
+$bitmap{'1c3'}   = 0b0000000000000000100;
+$bitmap{'1c4'}   = 0b0000000000000001000;
+$bitmap{'1c5'}   = 0b0000000000000010000;
+$bitmap{'2c1'}   = 0b0000000000000100000;
+$bitmap{'2c2'}   = 0b0000000000001000000;
+$bitmap{'2c3'}   = 0b0000000000010000000;
+$bitmap{'2c4'}   = 0b0000000000100000000;
+$bitmap{'2c5'}   = 0b0000000001000000000;
+$bitmap{'2c6'}   = 0b0000000010000000000;
+$bitmap{'3c1'}   = 0b0000000100000000000;
+$bitmap{'3c2'}   = 0b0000001000000000000;
+$bitmap{'3c3'}   = 0b0000010000000000000;
+$bitmap{'6c1'}   = 0b0000100000000000000;
+$bitmap{'6c2'}   = 0b0001000000000000000;
+$bitmap{'6c3'}   = 0b0010000000000000000;
+$bitmap{'7c1'}   = 0b0100000000000000000;
+$bitmap{'uss'}   = 0b1000000000000000000;
+$bitmap{'ref'}   = 0b1111111111111111111;
+$bitmap{' '}     = 0b1111111111111111111;
+$bitmap{'short'} = 0b1111111111111111111;
+while (($key, $value) = each %bitmap){
+    $reversebitmap{$value} = $key;
+}
+
+sub printVerdict{
     my @result = @_;
     my $resultString = join(",",@result);
-    #print "hello\n";
     #print $resultString."\n";
     my $nRef =()= $resultString =~ /ref/gi;
     if ($nRef==10){
-        print "ref ,";
+        #if all are ref, print ref
+        print "ref,";
     } elsif ($resultString =~ /var/){
         #if it's var, just print var
-        print "var ,";
+        print "var,";
     } else {
-        #TODO bitwise AND.  map each silent copy name to binary and do the bitwise and;
-        print "-- ,";
+        # map each silent copy name to binary and do the bitwise and;
+        $totalBitString = $bitmap{'ref'}; # all ones
+        for (my $i=1; $i<=$nRegions; $i++){
+            $subBitString = 0;
+            @tokens = split(' ',$result[$i]);
+            #TODO but what if $results[$i]=' '?  What is the token then?
+            foreach $token (@tokens) {
+                if (length($token)==3) {
+                    $subBitString = $subBitString | $bitmap{$token};
+                } 
+            }
+            #printf ("\n%20b",$subBitString);
+            #print "\n".$tokens[0];
+            $totalBitString = $totalBitString & $subBitString;
+        }
+        #printf ("%20b,",$totalBitString);
+        if (exists $reversebitmap{$totalBitString}){
+            print $reversebitmap{$totalBitString}.",";
+        } else {
+            print "--,";
+        }
     }
 
 }
@@ -410,7 +479,7 @@ sub verdict{
 
 
 #header
-print "counter,ID,region1,region2,region3,region4,region5,region6,region7,region8,region9,region10,nEmpty,verdict,basepairs\n";
+print "counter,ID,region1,region2,region3,region4,region5,region6,region7,region8,region9,region10,nVar,nEmpty,verdict,basepairs\n";
 my @result;
 
 $counter=1;
@@ -483,9 +552,9 @@ while ($seq_obj = $seqio_obj->next_seq) {
         print ",";
     }
 
-    print ","; #nEmpty goes here TODO
-
-    &verdict(@result);
+    &printNvar(@result); # print the number of variants
+    &printNblank(@result); # print the number of blanks
+    &printVerdict(@result); # print the verdict
 
     print length($seq_obj->seq); #debug
     
