@@ -453,15 +453,20 @@ sub printVerdict{
         print "var,";
     } else {
         # map each silent copy name to binary and do the bitwise and;
-        $totalBitString = $bitmap{'ref'}; # all ones
+        $totalBitString = $bitmap{'ref'}; # start with all ones
         for (my $i=1; $i<=$nRegions; $i++){
             $subBitString = 0;
             @tokens = split(' ',$result[$i]);
             #TODO but what if $results[$i]=' '?  What is the token then?
-            foreach $token (@tokens) {
-                if (length($token)==3) {
-                    $subBitString = $subBitString | $bitmap{$token};
-                } 
+            $ntokens = @tokens;
+            if ($ntokens!=0){  # or each bitmap together
+            	foreach $token (@tokens) {
+                    if (length($token)==3) {
+                        $subBitString = $subBitString | $bitmap{$token};
+                    } 
+            	}
+            } else { #if it was blank, set to all ones
+                $subBitString = $bitmap{'ref'};	
             }
             #printf ("\n%20b",$subBitString);
             #print "\n".$tokens[0];
