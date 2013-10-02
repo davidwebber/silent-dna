@@ -17,7 +17,8 @@ use Bio::SeqIO;
 
 #modify the inputfile filename as needed
 #$inputfile = "SampleFile.txt";
- $inputfile = "MID24_FA1090.fna";
+#$inputfile = "MID24_FA1090.fna";
+$inputfile = "MID4_FA1090.fna";
 
 $offset=91;  # offset between reference sequence and reads
 
@@ -319,7 +320,7 @@ $ref_length[9]=length('ACGCGCACCGGCGACAACGACGACACCGTTGCCGACGCCAACAACGCCATCGAC');
 $R{10}{'CGATGAATCATCTGCCGTT'}    = '1c3';
 $R{10}{'CGATAAATCATCTGCCGTT'}    = '1c4';
 #$R{10}{'CGATGAATCATCGTTGCCGG'}   = '1c5';
-$R{10}{'CGATAAACATGATGCCAAATG'}  = '2c1';
+#$R{10}{'CGATAAACATGATGCCAAATG'}  = '2c1';
 $R{10}{'TGATACGTCATCTGCCAAA'}    = '2c2';
 $R{10}{'CGATAAATCATCTGCCACCTA'}  = '2c3'; #also a var
 #$R{10}{'CGATGAATCATCTGCCACCTA'}  = '2c4';
@@ -328,7 +329,7 @@ $R{10}{'CGATGAATCATCGTTGCCGG'}   = '1c5 2c5 2c6';
 #$R{10}{'CGATGAATCATCTGCCACCTA'}  = '3c1';
 #$R{10}{'CGATAAATCAACTGCCGTT'}    = '3c2';
 $R{10}{'CGACCCGTTCTCTGCTAGC'}    = '3c3';
-$R{10}{'CGATAAACATGATGCCAAA'}    = '6c1';
+$R{10}{'CGATAAACATGATGCCAAA'}    = '2c1 6c1'; #2c1 has "TG" appended
 $R{10}{'CGATGAATCATCTGCCGTTTA'}  = '6c2';
 $R{10}{'CGATAAATCAACTGCCGTT'}    = '3c2 6c3';
 $R{10}{'CGATAAATCAACTGCCAAA'}    = '7c1';
@@ -459,17 +460,23 @@ sub printVerdict{
             @tokens = split(' ',$result[$i]);
             #TODO but what if $results[$i]=' '?  What is the token then?
             $ntokens = @tokens;
-            if ($ntokens!=0){  # or each bitmap together
+            if ($ntokens!=0){  # OR each bitmap together
             	foreach $token (@tokens) {
                     if (length($token)==3) {
                         $subBitString = $subBitString | $bitmap{$token};
+                        #print $token."\n";
                     } 
+                    if ($token =~ /short/) {
+                      $subBitString = $bitmap{'ref'};# set to all ones 
+                    }
             	}
-            } else { #if it was blank, set to all ones
-                $subBitString = $bitmap{'ref'};	
+            } else { #if the cell was blank,
+                #$subBitString = $bitmap{'ref'};# set to all ones	
+                $subBitString = $bitmap{'var'};# set to all zeros  
             }
             #printf ("\n%20b",$subBitString);
-            #print "\n".$tokens[0];
+            #print " ".$result[$i]."\n";
+            #print "\n".$tokens[1];
             $totalBitString = $totalBitString & $subBitString;
         }
         #printf ("%20b,",$totalBitString);
