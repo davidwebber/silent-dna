@@ -437,7 +437,7 @@ sub getNblank{
     return $total;
 }
 
-$bitmap{'var'}   = 0b0000000000000000000;
+#$bitmap{'var'}   = 0b0000000000000000000;
 $bitmap{'1c1'}   = 0b0000000000000000001;
 $bitmap{'1c2'}   = 0b0000000000000000010;
 $bitmap{'1c3'}   = 0b0000000000000000100;
@@ -458,11 +458,14 @@ $bitmap{'6c3'}   = 0b0010000000000000000;
 $bitmap{'7c1'}   = 0b0100000000000000000;
 $bitmap{'uss'}   = 0b1000000000000000000;
 $bitmap{'ref'}   = 0b1111111111111111111;
-$bitmap{' '}     = 0b1111111111111111111;
-$bitmap{'short'} = 0b1111111111111111111;
+#$bitmap{' '}     = 0b1111111111111111111;
+#$bitmap{'short'} = 0b1111111111111111111;
+
 while (($key, $value) = each %bitmap){
     $reversebitmap{$value} = $key;
 }
+$reversebitmap{0b0000000000000000000} = 'double_cross';
+$reversebitmap{0b0000100000000100000} = '2c1_6c1';
 
 sub printVerdict{
     my @result = @_;
@@ -497,7 +500,8 @@ sub printVerdict{
             	}
             } else { #if the cell was blank,
                 #$subBitString = $bitmap{'ref'};# set to all ones	
-                $subBitString = $bitmap{'var'};# set to all zeros  
+                #$subBitString = $bitmap{'var'};# set to all zeros  
+                $subBitString = $bitmap{'should not get here'};# set to all zeros  
             }
             #printf ("\n%20b",$subBitString);
             #print " ".$result[$i]."\n";
