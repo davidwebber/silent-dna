@@ -18,7 +18,12 @@ use Bio::SeqIO;
 #modify the inputfile filename as needed
 #$inputfile = "SampleFile.txt";
 #$inputfile = "MID24_FA1090.fna";
-$inputfile = "MID4_FA1090.fna";
+#$inputfile = "MID4_FA1090.fna";
+
+$inputfile = $ARGV[0];
+if (not defined $inputfile) {
+    die "need input filename";
+}
 
 $offset=91;  # offset between reference sequence and reads
 
@@ -414,6 +419,18 @@ sub printNblank{
     print $total.",";
 }
 
+sub getNblank{
+    my @result = @_;
+    my $total=0;
+    my $i=1;
+    for ($i=1; $i<=$nRegions; $i++){
+        if ($result[$i] eq " "){
+            $total++;
+        }
+    }
+    return $total;
+}
+
 $bitmap{'var'}   = 0b0000000000000000000;
 $bitmap{'1c1'}   = 0b0000000000000000001;
 $bitmap{'1c2'}   = 0b0000000000000000010;
@@ -452,6 +469,8 @@ sub printVerdict{
     } elsif ($resultString =~ /var/){
         #if it's var, just print var
         print "var,";
+    } elsif (getNblank(@result) != 0){
+        print ","; #blank
     } else {
         # map each silent copy name to binary and do the bitwise and;
         $totalBitString = $bitmap{'ref'}; # start with all ones
@@ -483,7 +502,7 @@ sub printVerdict{
         if (exists $reversebitmap{$totalBitString}){
             print $reversebitmap{$totalBitString}.",";
         } else {
-            print "--,";
+            print "var,";
         }
     }
 
