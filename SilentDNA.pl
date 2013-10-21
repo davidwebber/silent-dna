@@ -3,6 +3,8 @@
 # find key sequences in an input file.
 # a keyword for incomplete code is TODO
 
+# To run: ./SilentDNA.pl inputfile.fna > outputfile.csv
+
 # sequences are labeled according to specific silent copy names.
 # if a sequence is tagged but has no specific silent copy, the keyword is "var"
 
