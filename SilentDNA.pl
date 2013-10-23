@@ -36,7 +36,7 @@ $fudge_factor = 3;  #the number of insertions or deletions allowed before the se
 # you shouldn't have to modify anything below this line
 ##########################################################
 
-$debug=0; #set to 1 for some debugging output
+$debug=2; #set to 1 for some debugging output
 
 $nSilent=20; #number of silent copies, including the reference
 
@@ -283,7 +283,7 @@ $R{8}{'CCAAGCGTGAAAACGGTC'}  = '2c6';
 $R{8}{'GCAGGCGTGAAAACGGTTC'} = '6c2';
 $R{8}{'CCAAGCGTGAAGCCGGTTC'} = '3c3 6c3';
 $R{8}{'CCAGGCGTGAAGCCGGTTC'} = '7c1';
-$R{8}{'GCGTGAAGCCGGTTC'} = 'v355/359';
+#$R{8}{'GCGTGAAGCCGGTTC'} = 'v355/359';
 $R{8}{'CCAGGCGTCAAGACGGTTC'} = '3c2 uss vA350G';
 $R{8}{'CCAAGCGTCAAGACGGTTC'} = 'ref'; # 2c1 2c4 3c1 6c1
 #CCAGGCGTCAAGACGGTTC = var (this is the A350G)
@@ -352,6 +352,8 @@ $R{10}{'CGATGAATCATCTGCCAAATA'}  = 'var491';
 #CGATAAATCATCTGCCACCTA = var
 $ref_length[10]=length('CGATGAATCATCTGCCACCTA');
 
+$bound_09 = GGTAAAATGGTTCTGCGGACAGCCGGTT; #boundary between regions 9 and 10
+
 
 if ($debug>0){
   if ("Hello World" =~ /Hello/){
@@ -368,40 +370,38 @@ if ($debug>0){
 # read in the data file
 $seqio_obj = Bio::SeqIO->new(-file => $inputfile, -format => "fasta" );
 
-if ($debug>=2){ # for testing 
-  for ($i=0;$i<10;$i++){
-    $seq_obj = $seqio_obj->next_seq;
-  } 
-  print $seq_obj->display_id."\n";
-  print $seq_obj->desc."\n";
-  print $seq_obj->seq."\n";
-  print "number of basepairs ".length $seq_obj->seq;
-  print "\n";
-
-  for ($r=1; $r<=$nRegions; $r++){ #start later for debugging
-    for ($i=0; $i<$nSilent; $i++){
-      if ($debug>=2) {
-	    print "\$r=$r, \$i=$i\n"
-      }
-      my $substr = substr $seq_obj->seq, $region_min[$r]-$offset-$fudge_factor, $region_length[$r]+2*$fudge_factor;
-      my $search = $R[$r][$i];
-      if ($debug>=2) {
-	    print "\$substr=".$substr."\n";
-	    print "\$search=".$search."\n";
-      }
-      if ( $substr =~ /$search/ ){
-	    print "FOUND ";
-	    print $index[$i];
-         #print " at position ";
-         #print pos($substr);
-	    print "\n";
-      } 
-    } 
-  }
-
-
-  exit;
-}
+#if ($debug>=2){ # for testing 
+#  for ($i=0;$i<10;$i++){
+#    $seq_obj = $seqio_obj->next_seq;
+#  } 
+#  print $seq_obj->display_id."\n";
+#  print $seq_obj->desc."\n";
+#  print $seq_obj->seq."\n";
+#  print "number of basepairs ".length $seq_obj->seq;
+#  print "\n";
+#
+#  for ($r=1; $r<=$nRegions; $r++){ #start later for debugging
+#    for ($i=0; $i<$nSilent; $i++){
+#      if ($debug>=2) {
+#	    print "\$r=$r, \$i=$i\n"
+#      }
+#      my $substr = substr $seq_obj->seq, $region_min[$r]-$offset-$fudge_factor, $region_length[$r]+2*$fudge_factor;
+#      my $search = $R[$r][$i];
+#      if ($debug>=2) {
+#	    print "\$substr=".$substr."\n";
+#	    print "\$search=".$search."\n";
+#      }
+#      if ( $substr =~ /$search/ ){
+#	    print "FOUND ";
+#	    print $index[$i];
+#         #print " at position ";
+#         #print pos($s#ubstr);
+#	    print "\n";
+#      } 
+#    } 
+#  }
+#  exit;
+#}
 
 sub printNvar{
     my @result = @_;
@@ -527,7 +527,8 @@ print "counter,ID,region1,region2,region3,region4,region5,region6,region7,region
 my @result;
 
 $counter=1;
-while ($seq_obj = $seqio_obj->next_seq) {   
+while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=1) ) {   
+#while ($seq_obj = $seqio_obj->next_seq) {   
 
     $length_shift = 0; # accumulated shift in the position from long or short regions
     $this_offset = $offset; # this offset may change eg if it's a short read
@@ -559,14 +560,13 @@ while ($seq_obj = $seqio_obj->next_seq) {
 
     for ($r=$rStart; $r<=$nRegions; $r++){ 
         my $substr;
-        if ($r==11) #index region 10 from the end
+        if ($r==10) #index region 10 from the end
         {
-            $substr = substr $seq_obj->seq, $region_min[$r]-$this_offset-$fudge_factor+$length_shift, $region_length[$r]+2*$fudge_factor;
-            #print length($seq_obj->seq) - $region_length[$r]-$fudge_factor," ";
-        } else {
-            $substr = substr $seq_obj->seq, $region_min[$r]-$this_offset-$fudge_factor+$length_shift, $region_length[$r]+2*$fudge_factor;
-            #print $region_min[$r]-$this_offset-$fudge_factor+$length_shift," ";
+            #find the match position
+            $seq_obj =~ /$bound_09/
         } 
+        $substr = substr $seq_obj->seq, $region_min[$r]-$this_offset-$fudge_factor+$length_shift, $region_length[$r]+2*$fudge_factor;
+
 
         while (my ($key_seq,$silent_copy) = each $R{$r}){
 
