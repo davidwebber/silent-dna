@@ -3,7 +3,7 @@
 # find key sequences in an input file.
 # a keyword for incomplete code is TODO
 
-# To run: ./SilentDNA.pl inputfile.fna > outputfile.csv
+# To run: ./SilentDNA.pl inputfile.fna [ first_read ] [ last_read ] > outputfile.csv
 
 # sequences are labeled according to specific silent copy names.
 # if a sequence is tagged but has no specific silent copy, the keyword is "var"
@@ -27,6 +27,16 @@ if (not defined $inputfile) {
     die "need input filename";
 }
 
+$first_read = $ARGV[1];
+if (not defined $first_read){
+  $first_read = 1;
+}
+
+$last_read = $ARGV[2];
+if (not defined $last_read){
+  $last_read = 1e25; # a big number
+}
+
 $offset=91;  # offset between reference sequence and reads
 
 $fudge_factor = 3;  #the number of insertions or deletions allowed before the sequence of interest
@@ -36,9 +46,9 @@ $fudge_factor = 3;  #the number of insertions or deletions allowed before the se
 # you shouldn't have to modify anything below this line
 ##########################################################
 
-$debug=2; #set to 1 for some debugging output
+$debug=0; #set to 1 for some debugging output
 
-$nSilent=20; #number of silent copies, including the reference
+#$nSilent=20; #number of silent copies, including the reference
 
 $nRegions=10;
 
@@ -67,26 +77,26 @@ $nRegions=10;
     447-394+25,
     494-474+1);#}}}
 
-@index=("ref", #{{{
-        "1c1",
-        "1c2",
-        "1c3",
-        "1c4",
-        "1c5",
-        "2c1",
-        "2c2",
-        "2c3",
-        "2c4",
-        "2c5",
-        "2c6",
-        "3c1",
-        "3c2",
-        "3c3",
-        "6c1",
-        "6c2",
-        "6c3",
-        "7c1",
-        "uss"); #}}}
+#@index=("ref", #{{{
+#        "1c1",
+#        "1c2",
+#        "1c3",
+#        "1c4",
+#        "1c5",
+#        "2c1",
+#        "2c2",
+#        "2c3",
+#        "2c4",
+#        "2c5",
+#        "2c6",
+#        "3c1",
+#        "3c2",
+#        "3c3",
+#        "6c1",
+#        "6c2",
+#        "6c3",
+#        "7c1",
+#        "uss"); #}}}
 
 # Region 1 
 #$R{1}{'CGTTGCCGGGTATTGCCCGAATC'}='1c1';
@@ -352,7 +362,7 @@ $R{10}{'CGATGAATCATCTGCCAAATA'}  = 'var491';
 #CGATAAATCATCTGCCACCTA = var
 $ref_length[10]=length('CGATGAATCATCTGCCACCTA');
 
-$bound_09 = GGTAAAATGGTTCTGCGGACAGCCGGTT; #boundary between regions 9 and 10
+$bound_09 = "GGTAAAATGGTTCTGCGGACAGCCGGTT"; #boundary between regions 9 and 10
 
 
 if ($debug>0){
@@ -527,8 +537,13 @@ print "counter,ID,region1,region2,region3,region4,region5,region6,region7,region
 my @result;
 
 $counter=1;
-while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=1) ) {   
-#while ($seq_obj = $seqio_obj->next_seq) {   
+
+while ($counter < $first_read){
+  $seq_obj = $seqio_obj->next_seq or die "file is shorter than first requested sequence";
+  $counter+=1;
+}
+
+while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=$last_read) ) {   
 
     $length_shift = 0; # accumulated shift in the position from long or short regions
     $this_offset = $offset; # this offset may change eg if it's a short read
@@ -560,10 +575,11 @@ while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=1) ) {
 
     for ($r=$rStart; $r<=$nRegions; $r++){ 
         my $substr;
-        if ($r==10) #index region 10 from the end
+        if ( ($r==10) && ($debug>=1) )#index region 10 from the end
         {
             #find the match position
-            $seq_obj =~ /$bound_09/
+            $seq_obj->seq =~ /$bound_09/;
+            print "region 9 to 10 boundary found between @- and @+ \n";
         } 
         $substr = substr $seq_obj->seq, $region_min[$r]-$this_offset-$fudge_factor+$length_shift, $region_length[$r]+2*$fudge_factor;
 
@@ -582,6 +598,7 @@ while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=1) ) {
             }
             if ( $substr =~ /$search/ ){
                 print $silent_copy," ";
+                if ( ($r==10) && ($debug>=1) ){print "region 10 found between @- and @+ \n";}
                 $result[$r]=$silent_copy;
                 $length_shift += length($search) - $ref_length[$r];
                 if ($debug>=1) {
@@ -593,6 +610,9 @@ while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=1) ) {
                 #}
             }        
         } 
+        if ($result[$r] eq " "){
+          print $substr; # if no match found, print the search sequence to figure out why
+        }
         print ",";
     }
 
