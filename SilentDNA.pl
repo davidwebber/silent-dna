@@ -173,6 +173,7 @@ $R{3}{'TCCTCCGCCACCGACATCAA'}   = '7c1';
 $R{3}{'TCCTCCGCCGAAATCAA'}      = 'uss';
 $R{3}{'TCCGCTTCAACAATCAA'}      = 'ref'; #2c1, 3c2
 $R{3}{'TCCGCTTCAACAATCAT'}      = '1c5 (A239T)';
+$R{3}{'TCCGCGACAACAATCAA'}      = 'false';
 $ref_length[3]=length('TCCGCTTCAACAATCAA');
 
 # Region 4
@@ -245,6 +246,7 @@ $R{6}{'AAAATGCTTTCAAGCGG'} = '3c3 6c3';
 $R{6}{'GAAATGAAATCAGACGG'} = '6c2 7c1';
 $R{6}{'GAAATGGCTTCAAGCGG'} = 'uss';
 $R{6}{'CAAATGGCTTCAACCGG'} = 'ref'; # 2c1, 3c1, 3c2, 6c1
+$R{6}{'CAAATGACTTCAACCGG'} = 'false';
 $ref_length[6]=length('CAAATGGCTTCAACCGG');
 
 # Region 7
@@ -345,6 +347,7 @@ $R{10}{'CGATAAATCATCTGCCGTT'}    = '1c4';
 $R{10}{'TGATACGTCATCTGCCAAA'}    = '2c2';
 $R{10}{'TGATACGTCATCTGCCACCTA'}  = '2c2'; # added Oct 15, 2013
 $R{10}{'CGATAAATCATCTGCCACCTA'}  = '2c3'; #also a var
+#CGATAAATCATCTGCCACCTA = var
 #$R{10}{'CGATGAATCATCTGCCACCTA'}  = '2c4';
 #$R{10}{'CGATGAATCATCGTTGCCGG'}   = '2c5';
 $R{10}{'CGATGAATCATCGTTGCCGG'}   = '1c5 2c5 2c6';
@@ -359,7 +362,7 @@ $R{10}{'CGATGAATCAACTGCCAAA'}    = '7c1'; # added Oct 15, 2013
 $R{10}{'CGATGAACCAACTGCCACCTA'}  = 'uss';
 $R{10}{'CGATGAATCATCTGCCACCTA'}  = 'ref'; #1c1 1c2 2c4 3c1
 $R{10}{'CGATGAATCATCTGCCAAATA'}  = 'var491';
-#CGATAAATCATCTGCCACCTA = var
+$R{10}{'CGATGAATCATCTGTCACCTA'}  = 'false';
 $ref_length[10]=length('CGATGAATCATCTGCCACCTA');
 
 $bound_09 = "GGTAAAATGGTTCTGCGGACAGCCGGTT"; #boundary between regions 9 and 10
@@ -507,6 +510,9 @@ sub printVerdict{
                         #print $token."\n";
                     } 
                     if ($token =~ /short/) {
+                      $subBitString = $bitmap{'ref'};# set to all ones 
+                    }
+                    if ($token =~ /false/) {
                       $subBitString = $bitmap{'ref'};# set to all ones 
                     }
             	}
