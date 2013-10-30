@@ -149,6 +149,8 @@ $R{2}{'ACATGGCCGAAAGACAACACTTCT'}='1c1 7c1 (T188A)';
 $R{2}{'GAATGGCCGAAAGACAACACTTCT'}='var (A187G)';
 $R{2}{'ATATGGCCGGAAAACAACACTTCT'}='var (195/199)';
 $R{2}{'GAATGGCCGAAAGAACAACACTTCT'}='var (SF37)';  # added Oct 15, 2013
+$R{2}{'ATATGGCCGAAAGACAACACGCT'} ='indel';
+$R{2}{'ATATGGACCGAAAGACAACACTTCT'}='indel';
 $ref_length[2]=length('ATATGGCCGAAAGACAACACTTCT');
 
 # Region 3
@@ -174,6 +176,7 @@ $R{3}{'TCCTCCGCCGAAATCAA'}      = 'uss';
 $R{3}{'TCCGCTTCAACAATCAA'}      = 'ref'; #2c1, 3c2
 $R{3}{'TCCGCTTCAACAATCAT'}      = '1c5 (A239T)';
 $R{3}{'TCCGCGACAACAATCAA'}      = 'false';
+$R{3}{'TCCGACTTCAACAATCAA'}     = 'indel';
 $ref_length[3]=length('TCCGCTTCAACAATCAA');
 
 # Region 4
@@ -272,6 +275,7 @@ $R{7}{'AGAAATCAAAGGCAAAAG'} = 'uss';
 $R{7}{'AGAAATCCAAGACAAAAA'} = 'ref'; #2c1 
 #AGAAATCCAAGGCAAAAA = var  (this is the A326G)
 #AGAAATCAAAGGCAAAAA = var (this is 322/326)
+$R{7}{'AGAAATACCAAGACAAAAA'} = 'indel';
 $ref_length[7]=length('AGAAATCCAAGACAAAAA');
 
 
@@ -513,6 +517,9 @@ sub printVerdict{
                       $subBitString = $bitmap{'ref'};# set to all ones 
                     }
                     if ($token =~ /false/) {
+                      $subBitString = $bitmap{'ref'};# set to all ones 
+                    }
+                    if ($token =~ /indel/) {
                       $subBitString = $bitmap{'ref'};# set to all ones 
                     }
             	}
