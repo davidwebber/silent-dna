@@ -16,6 +16,8 @@
 # TODO   columns for counts of "var (any incl named)", "blank", and "ref"
 
 use Bio::SeqIO;
+use warnings;
+no warnings ('substr');
 
 #modify the inputfile filename as needed
 #$inputfile = "SampleFile.txt";
@@ -579,18 +581,29 @@ while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=$last_read) ) {
     print $seq_obj->display_id,",";
 
     $rStart=1;
-    #check sequence is long enough to run the tests
-    if (length($seq_obj->seq) < $region_min[$nRegions]+$region_length[$nRegions]){ #+2*$fudge_factor){
-        #print "error: sequence too short\n";
+
+    #check if sequence is a short read.  We can recover if it's 310 to 340 basepairs (it's probably 6c1)
+    if (310 < length($seq_obj->seq) && length($seq_obj->seq) < 340){
         $this_offset=271;
         print "short,short,short,short,short,";
         $rStart=6;
         for ($r=1; $r<6; $r++){
             $result[$r]="short";
         }
-        #TODO continue testing the latter part of the sequence
-        #next; #go to next sequence
     }
+
+    #check sequence is long enough to run the tests
+    #if (1==2 && length($seq_obj->seq) < $region_min[$nRegions]+$region_length[$nRegions]){ #+2*$fudge_factor){
+    #    #print "error: sequence too short\n";
+    #    $this_offset=271;
+    #    print "short,short,short,short,short,";
+    #    $rStart=6;
+    #    for ($r=1; $r<6; $r++){
+    #        $result[$r]="short";
+    #    }
+    #    #TODO continue testing the latter part of the sequence
+    #    #next; #go to next sequence
+    #}
 
 
     for ($r=$rStart; $r<=$nRegions; $r++){ 
@@ -603,35 +616,40 @@ while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=$last_read) ) {
         } 
         $substr = substr $seq_obj->seq, $region_min[$r]-$this_offset-$fudge_factor+$length_shift, $region_length[$r]+2*$fudge_factor;
 
+        if (defined $substr){
 
-        while (my ($key_seq,$silent_copy) = each $R{$r}){
+            while (my ($key_seq,$silent_copy) = each $R{$r}){
 
-            if ($debug>=1) {
-                print "\$r=$r, $silent_copy\n"
-            }
-            # substr source start length
- 
-            my $search = $key_seq;
-            if ($debug>=1) {
-                print "\$substr=".$substr."\n";
-                print "\$search=".$search."\n";
-            }
-            if ( $substr =~ /$search/ ){
-                print $silent_copy," ";
-                if ( ($r==10) && ($debug>=1) ){print "region 10 found between @- and @+ \n";}
-                $result[$r]=$silent_copy;
-                $length_shift += length($search) - $ref_length[$r];
                 if ($debug>=1) {
-                    print @-,"-",@+," ";
-                    print $length_shift;
+                    print "\$r=$r, $silent_copy\n"
                 }
-                #if ($silent_copy eq "ref"){
-                #   last;  # if it's ref, don't bother checking the others
-                #}
-            }        
-        } 
-        if ($result[$r] eq " "){
-          print $substr; # if no match found, print the search sequence to figure out why
+                # substr source start length
+ 
+                my $search = $key_seq;
+                if ($debug>=1) {
+                    print "\$substr=".$substr."\n";
+                    print "\$search=".$search."\n";
+                }
+
+                if ( $substr =~ /$search/ ){
+                    print $silent_copy," ";
+                    if ( ($r==10) && ($debug>=1) ){print "region 10 found between @- and @+ \n";}
+                    $result[$r]=$silent_copy;
+                    $length_shift += length($search) - $ref_length[$r];
+                    if ($debug>=1) {
+                        print @-,"-",@+," ";
+                        print $length_shift;
+                    }
+                        #if ($silent_copy eq "ref"){
+                        #   last;  # if it's ref, don't bother checking the others
+                        #}
+                }        
+            } 
+            if ($result[$r] eq " "){
+                print $substr; # if no match found, print the search sequence to figure out why
+            }
+        } else {
+            print "N/A";
         }
         print ",";
     }
