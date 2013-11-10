@@ -18,6 +18,7 @@
 use Bio::SeqIO;
 use warnings;
 no warnings ('substr');
+#no warnings ('uninitialized', 'substr');
 
 #modify the inputfile filename as needed
 #$inputfile = "SampleFile.txt";
