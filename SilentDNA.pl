@@ -495,19 +495,19 @@ while (($key, $value) = each %bitmap){
 $reversebitmap{0b0000000000000000000} = 'double_cross';
 $reversebitmap{0b0000100000000100000} = '2c1_6c1';
 
-sub printVerdict{
+sub getVerdict{
     my @result = @_;
     my $resultString = join(",",@result);
     #print $resultString."\n";
     my $nRef =()= $resultString =~ /ref/gi;
     if ($nRef==10){
         #if all are ref, print ref
-        print "ref,";
+        return "ref";
     } elsif ($resultString =~ /var/){
         #if it's var, just print var
-        print "var,";
+        return "var";
     } elsif (getNblank(@result) != 0){
-        print ","; #blank
+        return ""; #blank
     } else {
         # map each silent copy name to binary and do the bitwise and;
         $totalBitString = $bitmap{'ref'}; # start with all ones
@@ -544,18 +544,44 @@ sub printVerdict{
         }
         #printf ("%20b,",$totalBitString);
         if (exists $reversebitmap{$totalBitString}){
-            print $reversebitmap{$totalBitString}.",";
+            return $reversebitmap{$totalBitString};
         } else {
-            print "var,";
+            return "var";
         }
     }
 
 }
 
+sub getAltVerdict{
+    # if a variant appears next to a named silent copy, treat that region as ref to allow the silent copy to be the verdict
+    my @result = @_;
+    #print "\n";
+    #for ($r=1;$r<=$nRegions;$r++){
+    #        print $result[$r]." ,";
+    #};
+    #print "\n";
+    for (my $i=2; $i<$nRegions; $i++){ # search inners
+        if ($result[$i] =~ /v/ && ($result[$i-1] =~ /c/ || $result[$i+1] =~ /c/) ){
+            $result[$i] = "ref";
+        }       
+    }
+    if ($result[2] =~ /v/ && $result[1] =~ /c/){ #left side
+        $result[2] = "ref"
+    }
+    if ($result[$nRegions] =~ /v/ && $result[$nRegions-1] =~ /c/){ #right side
+        $result[$nRegions] = "ref"
+    }
+    #print "\n";
+    #for ($r=1;$r<=$nRegions;$r++){
+    #        print $result[$r]." ,";
+    #};
+    #print "\n";
+    return getVerdict(@result);
+}
 
 
 #header
-print "counter,ID,region1,region2,region3,region4,region5,region6,region7,region8,region9,region10,nVar,nEmpty,verdict,basepairs\n";
+print "counter,ID,region1,region2,region3,region4,region5,region6,region7,region8,region9,region10,nVar,nEmpty,verdict,altVerdict,basepairs\n";
 my @result;
 
 $counter=1;
@@ -645,19 +671,21 @@ while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=$last_read) ) {
                         #}
                 }        
             } 
-            if ($result[$r] eq " "){
+            if ($result[$r] eq " "){ # " " is the initial value
                 print $substr; # if no match found, print the search sequence to figure out why
             }
-        } else {
+        } else { # cell does not exist due to short read
             print "N/A";
-            $result[$r]="Not_Applicable";
         }
         print ",";
     }
 
     &printNvar(@result); # print the number of variants
     &printNblank(@result); # print the number of blanks
-    &printVerdict(@result); # print the verdict
+    $verdict = &getVerdict(@result); # get the verdict
+    print $verdict.",";
+    $verdict = &getAltVerdict(@result);
+    print $verdict.",";
 
     print length($seq_obj->seq); #debug
     
