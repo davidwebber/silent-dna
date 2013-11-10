@@ -650,6 +650,7 @@ while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=$last_read) ) {
             }
         } else {
             print "N/A";
+            $result[$r]="Not_Applicable";
         }
         print ",";
     }
