@@ -6,3 +6,5 @@ today=`date +%b%d`
 ./SilentDNA.pl MID24_FA1090.fna   > MID24_FA1090_$today.csv
 ./SilentDNA.pl MID40_3_FA1090.fna > MID40_3_FA1090_$today.csv
 ./SilentDNA.pl MID40_4_FA1090.fna > MID40_4_FA1090_$today.csv
+./SilentDNA.pl MID45_FA1090.fna   > MID45_FA1090_$today.csv
+./SilentDNA.pl MID46_FA1090.fna   > MID46_FA1090_$today.csv
