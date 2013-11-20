@@ -1,20 +1,28 @@
 echo --- Region  1 ---
-	cat sample_Nov19.csv | awk '{ split($0,a,","); print a[3] }' | sort | uniq -c
+	cat *_Nov19.csv | awk '{ split($0,a,","); print a[3] }'  | sort | uniq -c | sort -n
 echo --- Region  2 ---
-	cat sample_Nov19.csv | awk '{ split($0,a,","); print a[4] }' | sort | uniq -c
+	cat *_Nov19.csv | awk '{ split($0,a,","); print a[4] }'  | sort | uniq -c | sort -n
 echo --- Region  3 ---
-	cat sample_Nov19.csv | awk '{ split($0,a,","); print a[5] }' | sort | uniq -c
+	cat *_Nov19.csv | awk '{ split($0,a,","); print a[5] }'  | sort | uniq -c | sort -n
 echo --- Region  4 ---
-	cat sample_Nov19.csv | awk '{ split($0,a,","); print a[6] }' | sort | uniq -c
+	cat *_Nov19.csv | awk '{ split($0,a,","); print a[6] }'  | sort | uniq -c | sort -n
 echo --- Region  5 ---
-	cat sample_Nov19.csv | awk '{ split($0,a,","); print a[7] }' | sort | uniq -c
+	cat *_Nov19.csv | awk '{ split($0,a,","); print a[7] }'  | sort | uniq -c | sort -n
 echo --- Region  6 ---
-	cat sample_Nov19.csv | awk '{ split($0,a,","); print a[8] }' | sort | uniq -c
+	cat *_Nov19.csv | awk '{ split($0,a,","); print a[8] }'  | sort | uniq -c | sort -n
 echo --- Region  7 ---
-	cat sample_Nov19.csv | awk '{ split($0,a,","); print a[9] }' | sort | uniq -c
+	cat *_Nov19.csv | awk '{ split($0,a,","); print a[9] }'  | sort | uniq -c | sort -n
 echo --- Region  8 ---
-	cat sample_Nov19.csv | awk '{ split($0,a,","); print a[10] }' | sort | uniq -c
+	cat *_Nov19.csv | awk '{ split($0,a,","); print a[10] }' | sort | uniq -c | sort -n
 echo --- Region  9 ---
-	cat sample_Nov19.csv | awk '{ split($0,a,","); print a[11] }' | sort | uniq -c
+	cat *_Nov19.csv | awk '{ split($0,a,","); print a[11] }' | sort | uniq -c | sort -n
 echo --- Region 10 ---
-	cat sample_Nov19.csv | awk '{ split($0,a,","); print a[12] }' | sort | uniq -c
+	cat *_Nov19.csv | awk '{ split($0,a,","); print a[12] }' | sort | uniq -c | sort -n
+echo --- nVar       ---
+	cat *_Nov19.csv | awk '{ split($0,a,","); print a[13] }' | sort | uniq -c | sort -n
+echo --- empty      ---
+	cat *_Nov19.csv | awk '{ split($0,a,","); print a[14] }' | sort | uniq -c | sort -n
+echo --- verdict    ---
+	cat *_Nov19.csv | awk '{ split($0,a,","); print a[15] }' | sort | uniq -c | sort -n
+echo --- altVerdict ---
+	cat *_Nov19.csv | awk '{ split($0,a,","); print a[16] }' | sort | uniq -c | sort -n
