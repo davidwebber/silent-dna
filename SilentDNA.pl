@@ -10,7 +10,7 @@
 
 # DONE   tolerate short reads
 # DELETE implement short regions in region 9 
-# TODO   implement a "verdict" column
+# DONE   implement a "verdict" column
 # TODO   try to index region 10 from the right, since R9 length varies
 # TODO   count the number of empty cells on each row
 # TODO   columns for counts of "var (any incl named)", "blank", and "ref"
@@ -329,7 +329,7 @@ $R{8}{'CCAGGCGTCAAGACGGTTC'} = '3c2 uss vA350G';
 $R{8}{'CCAAGCGTCAAGACGGTTC'} = 'ref'; # 2c1 2c4 3c1 6c1
 #CCAGGCGTCAAGACGGTTC = var (this is the A350G)
 #CCAAGCGTGAAAACGGTTC = var (this is 355/358)
-$R{8}{'CCAAAGCGTCAAGACGGTTC'} = indel
+$R{8}{'CCAAAGCGTCAAGACGGTTC'} = 'indel';
 $ref_length[8]=length('CCAAGCGTCAAGACGGTTC');
 
 # Region 9
@@ -572,7 +572,15 @@ sub getVerdict{
             return "var";
         }
     }
+}
 
+sub printPminus{
+    my @result = @_;
+    if ( ($result[1] =~ /3c2/) || ($result[3] =~ /2c4/) || ($result[3] =~ /1c3/) || ($result[3] =~ /6c2/) ) {
+        print "P-,";
+    } else {
+        print "-,";
+    }
 }
 
 sub getAltVerdict{
@@ -604,7 +612,7 @@ sub getAltVerdict{
 
 
 #header
-print "counter,ID,region1,region2,region3,region4,region5,region6,region7,region8,region9,region10,nVar,nEmpty,verdict,altVerdict,basepairs\n";
+print "counter,ID,region1,region2,region3,region4,region5,region6,region7,region8,region9,region10,nVar,nEmpty,verdict,altVerdict,P_minus,basepairs\n";
 my @result;
 
 $counter=1;
@@ -709,6 +717,7 @@ while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=$last_read) ) {
     print $verdict.",";
     $verdict = &getAltVerdict(@result);
     print $verdict.",";
+    &printPminus(@result);
 
     print length($seq_obj->seq); #debug
     
