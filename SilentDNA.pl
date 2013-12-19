@@ -401,8 +401,9 @@ $R{10}{'CGATGAATCATCTGCCCACCTA'} = 'indel';
 $R{10}{'CGATAAATCAAACTGCCAAATA'} = '7c1';
 $ref_length[10]=length('CGATGAATCATCTGCCACCTA');
 
-$bound_09 = "GGTAAAATGGTTCTGCGGACAGCCGGTT"; #boundary between regions 9 and 10
-
+#$bound_09 = "GGTAAAATGGTTCTGCGGACAGCCGGTT"; #boundary between regions 8 and 9
+$bound_10     = "ACCAAGCACCTGCCGTCAACCTGCCG"; #boundary between regions 9 and 10
+#$bound_10_1c5 = "ACCAGGCACCTGCCGTCAACCTGCCG"; #boundary between regions 9 and 10
 
 if ($debug>0){
   if ("Hello World" =~ /Hello/){
@@ -665,11 +666,19 @@ while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=$last_read) ) {
 
     for ($r=$rStart; $r<=$nRegions; $r++){ 
         my $substr;
-        if ( ($r==10) && ($debug>=1) )#index region 10 from the end
+        if ( ($r==10) )#index region 10 from the edge of 9 and 10
         {
             #find the match position
-            $seq_obj->seq =~ /$bound_09/;
-            print "region 9 to 10 boundary found between @- and @+ \n";
+            if ($seq_obj->seq =~ /$bound_10/) {
+                if ( $debug>=1 ){
+                    print "region 9 to 10 boundary found between @- and @+. ";
+                    print "region 10 begins at ".($region_min[$r]-$this_offset-$fudge_factor+$length_shift).". delta=";
+                }
+                $length_shift = "@+" - ($region_min[$r]-$this_offset-1); #assignment, not modification;
+                if ( $debug>=1) {
+                    print $length_shift."\n";
+                }
+            }
         } 
         $substr = substr $seq_obj->seq, $region_min[$r]-$this_offset-$fudge_factor+$length_shift, $region_length[$r]+2*$fudge_factor;
 
@@ -677,25 +686,32 @@ while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=$last_read) ) {
 
             while (my ($key_seq,$silent_copy) = each $R{$r}){
 
-                if ($debug>=1) {
+                if ($debug>=2) {
                     print "\$r=$r, $silent_copy\n"
                 }
                 # substr source start length
  
                 my $search = $key_seq;
-                if ($debug>=1) {
+                if ($debug>=2) {
                     print "\$substr=".$substr."\n";
                     print "\$search=".$search."\n";
                 }
 
                 if ( $substr =~ /$search/ ){
                     print $silent_copy," ";
-                    if ( ($r==10) && ($debug>=1) ){print "region 10 found between @- and @+ \n";}
+                    $found_end = "@+" ; #MAGIC why do I need quotes here?
+                    #$found_begin = "@-" ;
+                    $expected_end = ($fudge_factor + length($search));
+                    if ( ($r==1) && ($debug>=1) ){print "region 1 found between @- and @+.  expected between $fudge_factor and ".($fudge_factor + length($search))."\n";}
+                    #if ( ($r==1) && ($debug>=1) ){print "region 1 found between $found_begin and $found_end.  expected between $fudge_factor and $expected_end. Diff=".($found_end-$expected_end)."\n";}
+                    $length_shift += ($found_end - $expected_end);  #shift the search region if the previous region is found outside where it was expected.
                     $result[$r]=$silent_copy;
                     $length_shift += length($search) - $ref_length[$r];
                     if ($debug>=1) {
+                        print "\$substr=".$substr."\n";
+                        print "\$search=".$search."\n";
                         print @-,"-",@+," ";
-                        print $length_shift;
+                        print $length_shift."\n";
                     }
                         #if ($silent_copy eq "ref"){
                         #   last;  # if it's ref, don't bother checking the others
