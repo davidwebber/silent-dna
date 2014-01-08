@@ -20,10 +20,7 @@ use warnings;
 no warnings ('substr');
 #no warnings ('uninitialized', 'substr');
 
-#modify the inputfile filename as needed
-#$inputfile = "SampleFile.txt";
-#$inputfile = "MID24_FA1090.fna";
-#$inputfile = "MID4_FA1090.fna";
+$debug=0; #set to 1 or 2 for some debugging output
 
 $inputfile = $ARGV[0];
 if (not defined $inputfile) {
@@ -49,7 +46,6 @@ $fudge_factor = 3;  #the number of insertions or deletions allowed before the se
 # you shouldn't have to modify anything below this line
 ##########################################################
 
-$debug=0; #set to 1 for some debugging output
 
 #$nSilent=20; #number of silent copies, including the reference
 
@@ -389,7 +385,7 @@ $R{10}{'CGATAAACATGATGCCAAA'}    = '2c1 6c1'; #2c1 has "TG" appended
 $R{10}{'CGATGAATCATCTGCCGTTTA'}  = '6c2';
 $R{10}{'CGATAAATCAACTGCCGTT'}    = '3c2 6c3';
 $R{10}{'CGATAAATCAACTGCCAAA'}    = '7c1';
-$R{10}{'CGATAAAATCAACTGCCAAA'}    = '7c1';
+$R{10}{'CGATAAAATCAACTGCCAAA'}   = '7c1';
 $R{10}{'CGATGAATCAACTGCCAAA'}    = '7c1'; # added Oct 15, 2013
 $R{10}{'CGATGAACCAACTGCCACCTA'}  = 'uss';
 $R{10}{'CGATGAATCATCTGCCACCTA'}  = 'ref'; #1c1 1c2 2c4 3c1
@@ -401,9 +397,14 @@ $R{10}{'CGATGAATCATCTGCCCACCTA'} = 'indel';
 $R{10}{'CGATAAATCAAACTGCCAAATA'} = '7c1';
 $ref_length[10]=length('CGATGAATCATCTGCCACCTA');
 
-#$bound_09 = "GGTAAAATGGTTCTGCGGACAGCCGGTT"; #boundary between regions 8 and 9
-$bound_10     = "ACCAAGCACCTGCCGTCAACCTGCCG"; #boundary between regions 9 and 10
-#$bound_10_1c5 = "ACCAGGCACCTGCCGTCAACCTGCCG"; #boundary between regions 9 and 10
+$bound[2]  = "ACGGC";           #boundary between regions 1 and 2
+$bound[3]  = "GCCGGCGTGGCA";    #boundary between regions 2 and 3
+$bound[4]  = "AGGCAAATATGTT";   #boundary between regions 3 and 4
+$bound[7]  = "CGTAAACAA";       #boundary between regions 6 and 7
+$bound[8]  = "CTCTCCCTGTGGG";   #boundary between regions 7 and 8
+$bound[9]  = "GGTAAAATGGTTCTGCGGACAGCCGGTT";  #boundary between regions 8 and 9
+$bound[10] = "ACCAAGCACCTGCCGTCAACCTGCCG";    #boundary between regions 9 and 10
+#$bound_10_1c5 = "ACCAGGCACCTGCCGTCAACCTGCCG"; #boundary between regions 9 and 10 specifically for 1c5
 
 if ($debug>0){
   if ("Hello World" =~ /Hello/){
@@ -666,13 +667,13 @@ while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=$last_read) ) {
 
     for ($r=$rStart; $r<=$nRegions; $r++){ 
         my $substr;
-        if ( ($r==10) )#index region 10 from the edge of 9 and 10
+        if ( ($r==2) || ($r==3) || ($r==4) || ($r==7) || ($r==8) || ($r==9) || ($r==10) )#index region 10 from the edge of 9 and 10
         {
             #find the match position
-            if ($seq_obj->seq =~ /$bound_10/) {
+            if ($seq_obj->seq =~ /$bound[$r]/) {
                 if ( $debug>=1 ){
-                    print "region 9 to 10 boundary found between @- and @+. ";
-                    print "region 10 begins at ".($region_min[$r]-$this_offset-$fudge_factor+$length_shift).". delta=";
+                    print "region ".($r-1)." to ".$r." boundary found between @- and @+. ";
+                    print "region ".$r." begins at ".($region_min[$r]-$this_offset-$fudge_factor+$length_shift).". delta=";
                 }
                 $length_shift = "@+" - ($region_min[$r]-$this_offset-1); #assignment, not modification;
                 if ( $debug>=1) {
