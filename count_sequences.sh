@@ -1,4 +1,4 @@
-day=Jan07
+day=Jan22
 echo --- Region  1 ---
 	cat *_$day.csv | awk '{ split($0,a,","); print a[3] }'  | sort | uniq -c | sort -n
 echo --- Region  2 ---
@@ -27,3 +27,7 @@ echo --- verdict    ---
 	cat *_$day.csv | awk '{ split($0,a,","); print a[15] }' | sort | uniq -c | sort -n
 echo --- altVerdict ---
 	cat *_$day.csv | awk '{ split($0,a,","); print a[16] }' | sort | uniq -c | sort -n
+echo --- P_minus ---
+	cat *_$day.csv | awk '{ split($0,a,","); print a[17] }' | sort | uniq -c | sort -n
+echo --- basepairs ---
+	cat *_$day.csv | awk '{ split($0,a,","); print a[18] }' | sort | uniq -c | sort -n

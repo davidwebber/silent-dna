@@ -15,6 +15,9 @@
 # TODO   count the number of empty cells on each row
 # TODO   columns for counts of "var (any incl named)", "blank", and "ref"
 
+#use Text::LevenshteinXS qw(distance);
+use Text::WagnerFischer qw(distance);
+
 use Bio::SeqIO;
 use warnings;
 no warnings ('substr');
@@ -126,6 +129,8 @@ $R{1}{'CGTCACCGAGTATTACCCGAATC'} = '6c2 hybrid';
 $R{1}{'CGTCACCGGGTATTACCTGAATA'} = '6c1 6c3 2c1 hybrid';
 $R{1}{'CGTCACCGAGTATTACCTGAAAA'} = '3c2 hybrid';
 $ref_length[1]=length('CGTCACCGAGTATTACCTGAATA');
+$R{1}{'ref'}='CGTCACCGAGTATTACCTGAATC'; # uss, 7c1, 3c3
+
 
 # Region 2
 #$R{2}{'ACATGGCCGAAAGACAACGGTGAT'}='1c1';
@@ -158,6 +163,7 @@ $R{2}{'ATATGGACCGAAAGACAACACTTCT'}='indel';
 $R{2}{'ATATGGTCGAAAGACAACACTTCT'} = 'false';
 $R{2}{'ATATGGCCCGCCGACAACGGCGCT'} = '2c1 6c1 hybrid';
 $ref_length[2]=length('ATATGGCCGAAAGACAACACTTCT');
+$R{2}{'ref'}='ATATGGCCGAAAGACAACACTTCT'; # 2c6, 3c3
 
 # Region 3
 $R{3}{'TCCCCCGCCGACAAAATCAA'}   = '1c1';
@@ -184,6 +190,7 @@ $R{3}{'TCCGCTTCAACAATCAT'}      = '1c5 (A239T)';
 $R{3}{'TCCGCGACAACAATCAA'}      = 'false';
 $R{3}{'TCCGACTTCAACAATCAA'}     = 'indel';
 $ref_length[3]=length('TCCGCTTCAACAATCAA');
+$R{3}{'ref'}='TCCGCTTCAACAATCAA'; #2c1, 3c2
 
 # Region 4
 #$R{4}{'CAGAAAGTTGAAGTCGCAAAA'} = '1c1';
@@ -213,6 +220,7 @@ $R{4}{'AAGGAAGTTAAAGTCGCAAAA'} = '1c5 2c3 6c1 hybrid';
 $R{4}{'CAGAAAGTTGAAGTCGCAAAC'} = '6c2 7c1 uss hybrid';
 $R{4}{'CAGAAAGTTGAAGTCACAAAA'} = '3c2 3c3 2c2 hybrid';
 $ref_length[4]=length('CAGAAAGTTGAAGTCGCAAAA');
+$R{4}{'ref'}='CAGAAAGTTGAAGTCGCAAAA'; #1c1, 2c1, 3c1
 
 ## Region 5
 ##$R{5}{'AGGCGTCGTTACCGCCGA'} = '1c1';
@@ -241,6 +249,7 @@ $ref_length[4]=length('CAGAAAGTTGAAGTCGCAAAA');
 $R{5}{'GGCGTCGTTACCGCC'} = 'ref'; # 1c2, 2c1, 3c1
 $R{5}{'GGCGTCGTCACCGCC'} = 'v282 1c4 1c5 2c3 2c4 6c1';
 $ref_length[5]=length('GGCGTCGTTACCGCC');
+$R{5}{'ref'}='GGCGTCGTTACCGCC'; # 1c2, 2c1, 3c1
 
 # Region 6
 $R{6}{'GAAATGAAACCAAGCGG'} = '1c1';
@@ -266,6 +275,7 @@ $R{6}{'CAAATGGCTTCAACCGG'} = 'ref'; # 2c1, 3c1, 3c2, 6c1
 $R{6}{'CAAATGACTTCAACCGG'} = 'false';
 $R{6}{'CAAATGGCTTCAAACCGG'} = 'indel';
 $ref_length[6]=length('CAAATGGCTTCAACCGG');
+$R{6}{'ref'}='CAAATGGCTTCAACCGG'; # 2c1, 3c1, 3c2, 6c1
 
 # Region 7
 #$R{7}{'AGAAATCAAAGGCAAAAA'} = '1c1';
@@ -297,6 +307,7 @@ $R{7}{'AGAAAATCCAAGACAAAAA'} = 'indel';
 $R{7}{'TGAAATCCAAGACAAAAA'} = 'var (A315T)';
 $R{7}{'AGAAATCCAAAGGCAAAAGA'} = '2c6 3c3 7c1 hybrid';
 $ref_length[7]=length('AGAAATCCAAGACAAAAA');
+$R{7}{'ref'}='AGAAATCCAAGACAAAAA'; #2c1 
 
 
 
@@ -327,6 +338,7 @@ $R{8}{'CCAAGCGTCAAGACGGTTC'} = 'ref'; # 2c1 2c4 3c1 6c1
 #CCAAGCGTGAAAACGGTTC = var (this is 355/358)
 $R{8}{'CCAAAGCGTCAAGACGGTTC'} = 'indel';
 $ref_length[8]=length('CCAAGCGTCAAGACGGTTC');
+$R{8}{'ref'}='CCAAGCGTCAAGACGGTTC'; # 2c1 2c4 3c1 6c1
 
 # Region 9
 $R{9}{'AAGCGCGACGCCGGCGCCAAAGCCGACGACGTCAAAGCCGACGCCGCCAACGCCATCGAA'}                   = '1c1';
@@ -356,6 +368,7 @@ $R{9}{'AAGCGCACCGGCGACAACGACGACACCGTTGCCGACGCCAACAACGCCATCGAC'}                 
 $R{9}{'ACGCGCACCGGCGACAACGACGACACCGTTGCCGACGCCAACAACGCCATCGAA'}                         = 'var';
 $R{9}{'CGCGCACCGGCGACAACGACGACACCGTTGCCGACGCCGCCAACGCCATCGAC'}                          = 'var';  # added Oct 15, 2013
 $ref_length[9]=length('ACGCGCACCGGCGACAACGACGACACCGTTGCCGACGCCAACAACGCCATCGAC');
+$R{9}{'ref'}='ACGCGCACCGGCGACAACGACGACACCGTTGCCGACGCCAACAACGCCATCGAC'; #2c1
 
  
 #TODO
@@ -396,6 +409,7 @@ $R{10}{'CGATGAAATCATCTGCCACCTA'} = 'indel';
 $R{10}{'CGATGAATCATCTGCCCACCTA'} = 'indel';
 $R{10}{'CGATAAATCAAACTGCCAAATA'} = '7c1';
 $ref_length[10]=length('CGATGAATCATCTGCCACCTA');
+$R{10}{'ref'}='CGATGAATCATCTGCCACCTA'; #1c1 1c2 2c4 3c1
 
 $bound[2]  = "ACGGC";           #boundary between regions 1 and 2
 $bound[3]  = "GCCGGCGTGGCA";    #boundary between regions 2 and 3
@@ -531,6 +545,9 @@ sub getVerdict{
     } elsif ($resultString =~ /var/){
         #if it's var, just print var
         return "var";
+    } elsif ($resultString =~ /N\/A/){
+        #if it's var, just print var
+        return "trunc";
     } elsif (getNblank(@result) != 0){
         return ""; #blank
     } else {
@@ -554,6 +571,9 @@ sub getVerdict{
                       $subBitString = $bitmap{'ref'};# set to all ones 
                     }
                     if ($token =~ /indel/) {
+                      $subBitString = $bitmap{'ref'};# set to all ones 
+                    }
+                    if ($token =~ /mismatch/) {
                       $subBitString = $bitmap{'ref'};# set to all ones 
                     }
             	}
@@ -611,6 +631,55 @@ sub getAltVerdict{
     #print "\n";
     return getVerdict(@result);
 }
+
+
+sub min_distance{
+    my ($seq, $ref) = @_;
+    my $n=0;
+    my $m=0;
+    my $length = length $seq;
+    my $dist_min=100;
+
+    if ($length < length($ref)){ #short read
+        return -1;
+    }
+ 
+    my $last_dist;
+    my $dist = distance( (substr $seq, $n, $length-$n-$m), $ref);
+    #print $dist."\n";
+
+    # I think this algorithm could be improved
+    for ($n=1; $n<10; $n++){
+        $last_dist = $dist;
+        $dist = distance( (substr $seq, $n, $length-$n-$m), $ref);
+        #print "$n $m $dist"."\n";
+        if ($dist <= $last_dist){
+            $last_dist=$dist;
+        } else {
+            $n-=1;
+            $dist = $last_dist;
+            last; #break;
+        }
+    }
+
+    for ($m=1; $m<10; $m++){
+        $last_dist = $dist;
+        $dist = distance( (substr $seq, $n, $length-$n-$m), $ref);
+        #print "$n $m $dist"."\n";
+        if ($dist <= $last_dist){
+            $last_dist=$dist;
+        } else {
+            $m-=1;
+            $dist = $last_dist;
+            last; #break;
+        }
+    }
+
+    #print "minimum distance is $dist \n";
+    return $dist;
+
+}
+
 
 
 #header
@@ -720,10 +789,19 @@ while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=$last_read) ) {
                 }        
             } 
             if ($result[$r] eq " "){ # " " is the initial value
-                print $substr; # if no match found, print the search sequence to figure out why
+                $min_dist = min_distance($substr,$R{$r}{'ref'});
+                if ($min_dist == 1) {
+                    print "mismatch";
+                    $result[$r]="mismatch";
+                } else {
+                    print $min_dist;
+                    print " ";
+                    print $substr; # if no match found, print the search sequence to figure out why
+                }
             }
         } else { # cell does not exist due to short read
             print "N/A";
+            $result[$r]="N/A";
         }
         print ",";
     }
