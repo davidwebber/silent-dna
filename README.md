@@ -1,23 +1,26 @@
-silent-dna
+=silent-dna=
 ==========
 
 Which silent copy did this read come from?
 
 ==========
 
-Installation
+=Installation=
 
+==Easy:==
+$ sudo apt-get install bioperl
+
+==Hard:==
 Follow the instructions at 
 http://www.bioperl.org/wiki/Installing_BioPerl
 under the headings appropriate for your operating system.
-(I used http://www.bioperl.org/wiki/Installing_BioPerl_on_Unix under sections
+(I tried http://www.bioperl.org/wiki/Installing_BioPerl_on_Unix under sections
  - Preparing to Install
  - Installing using CPAN (first do the steps under "Installing in a personal module area")
 )
 
-You know what?  never mind.  just do 
-$ sudo apt-get install bioperl
-
-
-
-
+=Running=
+make -j 4
+./check_completion.sh
+./remove_short.sh
+./count_sequences.sh | tee counted_sequences.sh

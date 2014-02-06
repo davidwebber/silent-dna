@@ -1,4 +1,4 @@
-day=Jan22
+day=Feb05
 echo --- Region  1 ---
 	cat *_$day.csv | awk '{ split($0,a,","); print a[3] }'  | sort | uniq -c | sort -n
 echo --- Region  2 ---
