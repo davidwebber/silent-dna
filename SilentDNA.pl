@@ -455,9 +455,10 @@ $R{10}{'CGATGAATCATCTGCCCACCTA'} = 'indel';
 $R{10}{'CGATAAATCAAACTGCCAAATA'} = '7c1';
 $ref_length[10]=length('CGATGAATCATCTGCCACCTA');
 $R{10}{'ref'}='CGATGAATCATCTGCCACCTA'; #1c1 1c2 2c4 3c1
-$R{10}{'CGATAAATCAACTGCCACCTA'}  = 'var'
+$R{10}{'CGATAAATCAACTGCCACCTA'}  = 'var';
 
-$bound[2]  = "ACGGC";           #boundary between regions 1 and 2
+$bound[2]  = "A[CT]GGC";           #boundary between regions 1 and 2
+#$bound[2]  = "ATGGC";           #boundary between regions 1 and 2, alternate
 $bound[3]  = "GCCGGCGTGGCA";    #boundary between regions 2 and 3
 $bound[4]  = "AGGCAAATATGTT";   #boundary between regions 3 and 4
 $bound[7]  = "CGTAAACAA";       #boundary between regions 6 and 7
