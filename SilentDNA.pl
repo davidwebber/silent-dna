@@ -457,7 +457,8 @@ $ref_length[10]=length('CGATGAATCATCTGCCACCTA');
 $R{10}{'ref'}='CGATGAATCATCTGCCACCTA'; #1c1 1c2 2c4 3c1
 $R{10}{'CGATAAATCAACTGCCACCTA'}  = 'var';
 
-$bound[2]  = "A[CT]GGC";           #boundary between regions 1 and 2
+#$bound[2]  = "A[CT]GGC";           #boundary between regions 1 and 2, a dead-end
+$bound[2]  = "ACGGC";           #boundary between regions 1 and 2, original
 #$bound[2]  = "ATGGC";           #boundary between regions 1 and 2, alternate
 $bound[3]  = "GCCGGCGTGGCA";    #boundary between regions 2 and 3
 $bound[4]  = "AGGCAAATATGTT";   #boundary between regions 3 and 4
@@ -791,7 +792,10 @@ while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=$last_read) ) {
                     print "region ".($r-1)." to ".$r." boundary found between @- and @+. ";
                     print "region ".$r." begins at ".($region_min[$r]-$this_offset-$fudge_factor+$length_shift).". delta=";
                 }
-                $length_shift = "@+" - ($region_min[$r]-$this_offset-1); #assignment, not modification;
+                #use for small adjustments only
+                if (abs("@+"-$region_min[$r]) < 10){
+                   $length_shift = "@+" - ($region_min[$r]-$this_offset-1); #assignment, not modification;
+                }
                 if ( $debug>=1) {
                     print $length_shift."\n";
                 }
