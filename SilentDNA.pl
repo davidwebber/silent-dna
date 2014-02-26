@@ -120,7 +120,7 @@ $R{1}{'CGTTGCCGGGTATTACCCGAATC'}='6c2';
 $R{1}{'CGTCACCGAGTATTACCCGAATA'}='2c1 6c3';
 #$R{1}{'CGTCACCGAGTATTACCTGAATC'}='7c1';
 #$R{1}{'CGTCACCGAGTATTACCTGAATC'}='uss';
-$R{1}{'CGTCACCGAGTATTACCTGAATC'}='ref'; # uss, 7c1, 3c3
+$R{1}{'CGTCACCGAGTATTACCTGAATC'}='ref 3c3 7c1'; # uss, 7c1, 3c3
 $R{1}{'CGTTGCCGAGTATTACCTGAATC'}='v163';
 $R{1}{'CGTCACCGAGTATTACCTGAATA'}='2c1 6c1 6c3 (C181A)';
 #$R{1}{'CGTCACCGAGTATTACCTGAAAA'} = 'indel'; #same as 3c2 hybrid
@@ -153,7 +153,7 @@ $R{2}{'AAATGGCCGGAAGACAACACTTCT'}='6c2';
 $R{2}{'AAATGGCCCGCAAACAACGGCGCT'}='6c3';
 $R{2}{'ACATGGCCGGAAAACAACACTTCT'}='7c1';
 $R{2}{'ACATGGCCGAAAGACAACGGTGAT'}='1c1 uss';
-$R{2}{'ATATGGCCGAAAGACAACACTTCT'}='ref'; # 2c6, 3c3
+$R{2}{'ATATGGCCGAAAGACAACACTTCT'}='ref 2c6 3c3'; # 2c6, 3c3
 $R{2}{'ACATGGCCGAAAGACAACACTTCT'}='1c1 7c1 (T188A)';
 $R{2}{'GAATGGCCGAAAGACAACACTTCT'}='var (A187G)';
 $R{2}{'ATATGGCCGGAAAACAACACTTCT'}='var (195/199)';
@@ -190,7 +190,7 @@ $R{3}{'TCCCCCCCTCCGACATCAA'}    = '6c2';
 $R{3}{'TCCGCCTCCGACATCAA'}      = '2c5 6c3';
 $R{3}{'TCCTCCGCCACCGACATCAA'}   = '7c1';
 $R{3}{'TCCTCCGCCGAAATCAA'}      = 'uss';
-$R{3}{'TCCGCTTCAACAATCAA'}      = 'ref'; #2c1, 3c2
+$R{3}{'TCCGCTTCAACAATCAA'}      = 'ref 2c1 3c2'; #2c1, 3c2
 $R{3}{'TCCGCGACAACAATCAA'}      = 'false';
 $R{3}{'TCCGACTTCAACAATCAA'}     = 'indel';
 $ref_length[3]=length('TCCGCTTCAACAATCAA');
@@ -217,7 +217,7 @@ $R{4}{'AAGGAAGTTAAAGTCGAAAAC'} = '1c5 2c3 6c1';
 $R{4}{'GAAAGCGTTACGGTCGAAAAA'} = '6c3';
 $R{4}{'CAAAGCGTTACGGTCGCAAAC'} = '6c2 7c1';
 $R{4}{'AAAAGCGTTACGGTCGCAAAC'} = 'uss';
-$R{4}{'CAGAAAGTTGAAGTCGCAAAA'} = 'ref'; #1c1, 2c1, 3c1
+$R{4}{'CAGAAAGTTGAAGTCGCAAAA'} = 'ref 1c1 2c1 3c1'; #1c1, 2c1, 3c1
 #CAGAAAGTTGAAGTCACAAAC = 2c2, 3c2, 3c3 (this is 268/273)
 $R{4}{'CAGAAAGTTGAAGTCGAAAAC'} = '1c5 2c3 6c1 v(269/273)';
 $R{4}{'CAGAAAGTTGAAGTCGCAAAG'} = 'indel';
@@ -251,7 +251,7 @@ $R{4}{'ref'}='CAGAAAGTTGAAGTCGCAAAA'; #1c1, 2c1, 3c1
 #$ref_length[5]=length('AGGCGTCGTTACCGCCCA');
 
 # Region 5
-$R{5}{'GGCGTCGTTACCGCC'} = 'ref'; # 1c2, 2c1, 3c1
+$R{5}{'GGCGTCGTTACCGCC'} = 'ref 1c1 1c2 1c3 2c1 2c2 2c5 2c6 3c1 3c2 3c3 6c2 6c3 7c1 uss'; 
 $R{5}{'GGCGTCGTCACCGCC'} = 'v282 1c4 1c5 2c3 2c4 6c1';
 $ref_length[5]=length('GGCGTCGTTACCGCC');
 $R{5}{'ref'}='GGCGTCGTTACCGCC'; # 1c2, 2c1, 3c1
@@ -276,7 +276,7 @@ $R{6}{'ACAATGGCTTCAAGCAA'} = '2c6';
 $R{6}{'AAAATGCTTTCAAGCGG'} = '3c3 6c3';
 $R{6}{'GAAATGAAATCAGACGG'} = '6c2 7c1';
 $R{6}{'GAAATGGCTTCAAGCGG'} = 'uss';
-$R{6}{'CAAATGGCTTCAACCGG'} = 'ref'; # 2c1, 3c1, 3c2, 6c1
+$R{6}{'CAAATGGCTTCAACCGG'} = 'ref 2c1 3c1 3c2 6c1'; # 2c1, 3c1, 3c2, 6c1
 $R{6}{'CAAATGACTTCAACCGG'} = 'false';
 $R{6}{'CAAATGGCTTCAAACCGG'} = 'indel';
 $ref_length[6]=length('CAAATGGCTTCAACCGG');
@@ -302,7 +302,7 @@ $R{7}{'AGAAATCAAAGGCAAAAA'} = '1c1 3c2 6c2 v322/326';
 $R{7}{'AGAAATCCAAGGCAAAAA'} = '2c5 3c1 6c3 vA362G';
 $R{7}{'AGAAATCCAAGGCAAAAG'} = '2c6 3c3 7c1';
 $R{7}{'AGAAATCAAAGGCAAAAG'} = 'uss';
-$R{7}{'AGAAATCCAAGACAAAAA'} = 'ref'; #2c1 
+$R{7}{'AGAAATCCAAGACAAAAA'} = 'ref 2c1'; #2c1 
 #AGAAATCCAAGGCAAAAA = var  (this is the A326G)
 #AGAAATCAAAGGCAAAAA = var (this is 322/326)
 $R{7}{'AGAAATACCAAGACAAAAA'} = 'indel';
@@ -337,7 +337,7 @@ $R{8}{'CCAAGCGTGAAGCCGGTTC'} = '3c3 6c3 hybrid 7c1';
 $R{8}{'CCAGGCGTGAAGCCGGTTC'} = '7c1';
 #$R{8}{'GCGTGAAGCCGGTTC'} = 'v355/359';
 $R{8}{'CCAGGCGTCAAGACGGTTC'} = '3c2 uss vA350G';
-$R{8}{'CCAAGCGTCAAGACGGTTC'} = 'ref'; # 2c1 2c4 3c1 6c1
+$R{8}{'CCAAGCGTCAAGACGGTTC'} = 'ref 2c1 2c4 3c1 6c1'; # 2c1 2c4 3c1 6c1
 #CCAGGCGTCAAGACGGTTC = var (this is the A350G)
 #CCAAGCGTGAAAACGGTTC = var (this is 355/358)
 $R{8}{'CCAAAGCGTCAAGACGGTTC'} = 'indel';
@@ -366,7 +366,7 @@ $R{9}{'AAGCGCAACGACGCCGCCAACGACGACGTTACCGACGACGCCGGCACCGACAACGGCGGCAAAGGCAAAATCG
 $R{9}{'ACGCGCGCCAAAGCCAAAGACGCCGACGACGTTACCGACGACGCCGGCACCCACAACGGCGGCAAAGGCAAAATCGAC'} = '7c1';
 $R{9}{'ACGCGCGCCAAAGCCAAAGACGCCGACGACGTTACCGACGACGCCGGCACCGACAACGGCGGCAAAGGCAAAATCGAC'} = '7c1';
 $R{9}{'ACGCGCAACGACGCCGCCGACAACGACGACGTCGCCAAAGACGACGCCGCCGGCAACGCCATCGAA'}             = 'uss';
-$R{9}{'ACGCGCACCGGCGACAACGACGACACCGTTGCCGACGCCAACAACGCCATCGAC'}                         = 'ref'; #2c1
+$R{9}{'ACGCGCACCGGCGACAACGACGACACCGTTGCCGACGCCAACAACGCCATCGAC'}                         = 'ref 2c1'; #2c1
 $R{9}{'CAGCGCACCGGCGACAACGACGACACCGTTGCCGACGCCAACAACGCCATCGAC'}                         = '2c2';
 $R{9}{'AAGCGCACCGGCGACAACGACGACACCGTTGCCGACGCCAACAACGCCATCGAC'}                         = 'var';
 $R{9}{'ACGCGCACCGGCGACAACGACGACACCGTTGCCGACGCCAACAACGCCATCGAA'}                         = 'var';
@@ -396,7 +396,7 @@ $R{9}{'CGCGCACCGGCGACAACGACGACACCGTTGACCGACGCCAACAACGCCATCGAC'}='indel';
 $R{9}{'CACGCACCGGCGACAACGACGACACCGTTGCCGACGCCAACAACGCCATCGAC'}='mismatch';
 $R{9}{'CGCGCACCGGCGACAACGACGACACCGTTGCCGACGCCGCCAACGCCATCGAA'}='1c1 3c1 hybrid';
 $R{9}{'CGCGCACCGGCGACAACGACGACACCGTTGCCGACGTCAACAACGCCATCGAC'}='mismatch';
-$R{9}{'AGCGCGACGCCGGCGCCAAAGCCGACGACGTCAAAGCCGACGCCGCCAACGCCATC'}='1c1';
+#$R{9}{'AGCGCGACGCCGGCGCCAAAGCCGACGACGTCAAAGCCGACGCCGCCAACGCCATC'}='1c1'; #shorter duplicate.  Added 2-15.  Removed 2-25
 $R{9}{'CGCGCACCGGCGACAACGACGACACCGTTGCCGACGCCAACAACGCTATCGAC'}='mismatch';
 $R{9}{'CGCGCACCGGCGACAACGACGACATCGTTGCCGACGCCAACAACGCCATCGAC'}='mismatch';
 $R{9}{'CGCGCACCGGCAACAACGACGACACCGTTGCCGACGCCAACAACGCCATCGAC'}='mismatch';
@@ -413,7 +413,6 @@ $R{9}{'CGCGCGACGCCGGCGCCAAAGCCGACGACGTCAAAGCCGACGCCGCCAACGCC'}='1c1 hybrid';
 $R{9}{'CGCGCACCGGCGACAACGACGATACCGTTGCCGACGCCAACAACGCCATCGAC'}='mismatch';
 $R{9}{'CGCGCACCGGCGACAACGACGACACCGTTGCCGACGCCAACAATGCCATCGAC'}='mismatch';
 $R{9}{'CGCGCACCGGCGACAACGACGACACCGTTGCCGACGCCAATAACGCCATCGAC'}='mismatch';
-$R{9}{'CGCGCACCGGCGACAACGACGACACCGTTACCGACGCCAACAACGCCATCGAC'}='var';
 $R{9}{'CGCGCACCGGCGACAACGACGACACCGTTACCGACGCCAACAACGCCATCGAC'}='var';
  
 #TODO
@@ -446,7 +445,7 @@ $R{10}{'CGATAAATCAACTGCCAAA'}    = '7c1';
 $R{10}{'CGATAAAATCAACTGCCAAA'}   = '7c1';
 $R{10}{'CGATGAATCAACTGCCAAA'}    = '7c1'; # added Oct 15, 2013
 $R{10}{'CGATGAACCAACTGCCACCTA'}  = 'uss';
-$R{10}{'CGATGAATCATCTGCCACCTA'}  = 'ref'; #1c1 1c2 2c4 3c1
+$R{10}{'CGATGAATCATCTGCCACCTA'}  = 'ref 1c1 1c2 2c4 3c1'; #1c1 1c2 2c4 3c1
 $R{10}{'CGATGAATCATCTGCCAAATA'}  = 'var491';
 $R{10}{'CGATGAATCATCTGTCACCTA'}  = 'false';
 $R{10}{'CGATGAATCATCTGCCACCCTA'} = 'indel';
@@ -457,6 +456,8 @@ $ref_length[10]=length('CGATGAATCATCTGCCACCTA');
 $R{10}{'ref'}='CGATGAATCATCTGCCACCTA'; #1c1 1c2 2c4 3c1
 $R{10}{'CGATAAATCAACTGCCACCTA'}  = 'var';
 
+
+$boundary_search_region=10; #the allowed fudge from where we search for the boundary and where we expect it, except region 10.
 #$bound[2]  = "A[CT]GGC";           #boundary between regions 1 and 2, a dead-end
 $bound[2]  = "ACGGC";           #boundary between regions 1 and 2, original
 #$bound[2]  = "ATGGC";           #boundary between regions 1 and 2, alternate
@@ -465,8 +466,9 @@ $bound[4]  = "AGGCAAATATGTT";   #boundary between regions 3 and 4
 $bound[7]  = "CGTAAACAA";       #boundary between regions 6 and 7
 $bound[8]  = "CTCTCCCTGTGGG";   #boundary between regions 7 and 8
 $bound[9]  = "GGTAAAATGGTTCTGCGGACAGCCGGTT";  #boundary between regions 8 and 9
-$bound[10] = "ACCAAGCACCTGCCGTCAACCTGCCG";    #boundary between regions 9 and 10
+#$bound[10]    = "ACCAAGCACCTGCCGTCAACCTGCCG";    #boundary between regions 9 and 10 for ref
 #$bound_10_1c5 = "ACCAGGCACCTGCCGTCAACCTGCCG"; #boundary between regions 9 and 10 specifically for 1c5
+$bound[10] = "ACCA[AG]GCACCTGCCGTCAACCTGCCG";    #boundary between regions 9 and 10 for either 1c5 or ref
 
 if ($debug>0){
   if ("Hello World" =~ /Hello/){
@@ -793,7 +795,11 @@ while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=$last_read) ) {
                     print "region ".$r." begins at ".($region_min[$r]-$this_offset-$fudge_factor+$length_shift).". delta=";
                 }
                 #use for small adjustments only
-                if (abs("@+"-$region_min[$r]) < 10){
+                if (abs("@+"-$region_min[$r]) < $boundary_search_region && $r!=10){
+                   $length_shift = "@+" - ($region_min[$r]-$this_offset-1); #assignment, not modification;
+                }
+                #region 10 boundary allowed to scan over the whole sequence
+                elsif ( $r==10 ){
                    $length_shift = "@+" - ($region_min[$r]-$this_offset-1); #assignment, not modification;
                 }
                 if ( $debug>=1) {

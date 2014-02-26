@@ -23,4 +23,4 @@ under the headings appropriate for your operating system.
 make -j 4
 ./check_completion.sh
 ./remove_short.sh
-./count_sequences.sh | tee counted_sequences.sh
+./count_sequences.sh | tee counted_sequences.txt
