@@ -8,13 +8,6 @@
 # sequences are labeled according to specific silent copy names.
 # if a sequence is tagged but has no specific silent copy, the keyword is "var"
 
-# DONE   tolerate short reads
-# DELETE implement short regions in region 9 
-# DONE   implement a "verdict" column
-# TODO   try to index region 10 from the right, since R9 length varies
-# TODO   count the number of empty cells on each row
-# TODO   columns for counts of "var (any incl named)", "blank", and "ref"
-
 #use Text::LevenshteinXS qw(distance);
 use Text::WagnerFischer qw(distance);
 
@@ -63,39 +56,6 @@ if ($debug>0){
 # read in the data file
 $seqio_obj = Bio::SeqIO->new(-file => $inputfile, -format => "fasta" );
 
-#if ($debug>=2){ # for testing 
-#  for ($i=0;$i<10;$i++){
-#    $seq_obj = $seqio_obj->next_seq;
-#  } 
-#  print $seq_obj->display_id."\n";
-#  print $seq_obj->desc."\n";
-#  print $seq_obj->seq."\n";
-#  print "number of basepairs ".length $seq_obj->seq;
-#  print "\n";
-#
-#  for ($r=1; $r<=$nRegions; $r++){ #start later for debugging
-#    for ($i=0; $i<$nSilent; $i++){
-#      if ($debug>=2) {
-#	    print "\$r=$r, \$i=$i\n"
-#      }
-#      my $substr = substr $seq_obj->seq, $region_min[$r]-$offset-$fudge_factor, $region_length[$r]+2*$fudge_factor;
-#      my $search = $R[$r][$i];
-#      if ($debug>=2) {
-#	    print "\$substr=".$substr."\n";
-#	    print "\$search=".$search."\n";
-#      }
-#      if ( $substr =~ /$search/ ){
-#	    print "FOUND ";
-#	    print $index[$i];
-#         #print " at position ";
-#         #print pos($s#ubstr);
-#	    print "\n";
-#      } 
-#    } 
-#  }
-#  exit;
-#}
-
 sub printNvar{
     my @result = @_;
     my $total=0;
@@ -131,8 +91,6 @@ sub getNblank{
     }
     return $total;
 }
-
-
 
 sub getVerdict{
     my @result = @_;
@@ -319,20 +277,6 @@ while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=$last_read) ) {
             $result[$r]="short";
         }
     }
-
-    #check sequence is long enough to run the tests
-    #if (1==2 && length($seq_obj->seq) < $region_min[$nRegions]+$region_length[$nRegions]){ #+2*$fudge_factor){
-    #    #print "error: sequence too short\n";
-    #    $this_offset=271;
-    #    print "short,short,short,short,short,";
-    #    $rStart=6;
-    #    for ($r=1; $r<6; $r++){
-    #        $result[$r]="short";
-    #    }
-    #    #TODO continue testing the latter part of the sequence
-    #    #next; #go to next sequence
-    #}
-
 
     for ($r=$rStart; $r<=$nRegions; $r++){ 
         my $substr;
