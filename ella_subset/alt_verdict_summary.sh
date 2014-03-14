@@ -1,4 +1,4 @@
-for n in `ls *.csv`
+for n in `ls filtered*.csv`
 do
   echo $n
   cat $n | awk '{ split($0,a,","); print a[16] }' | sort | uniq -c | sort -n

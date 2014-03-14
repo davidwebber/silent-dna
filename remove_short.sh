@@ -1,6 +1,6 @@
 #!/bin/bash
 
-day=Feb19
+day=Mar04
 
 cat MID10_FA1090_$day.csv   | awk '{split($0,a,","); if (a[18]>=480){print $0}}' > filtered_MID10_FA1090_$day.csv  
 cat MID1_3_FA1090_$day.csv  | awk '{split($0,a,","); if (a[18]>=480){print $0}}' > filtered_MID1_3_FA1090_$day.csv 
