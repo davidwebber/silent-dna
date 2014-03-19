@@ -1,5 +1,4 @@
 
-
 # offset between reference sequence and reads
 $offset=91; 
 
@@ -15,7 +14,7 @@ $nRegions=10;
     315,
     347,
     394,
-    474);
+    495);
 
 @region_length=(0, 
     181-159+1, #make the computer do the subtraction
@@ -26,8 +25,8 @@ $nRegions=10;
     305-289+1,
     332-315+1,
     365-347+1,
-    447-394+25,
-    494-474+1);
+    468-394+25,
+    515-495+1);
 
 $bound[2]  = "ACGGC";           #boundary between regions 1 and 2, original
 $bound[3]  = "GCCGGCGTGGCA";    #boundary between regions 2 and 3
@@ -84,7 +83,7 @@ $R{1}{'CGTCACCGAGTATTACCCGAATC'} = '6c2 hybrid';
 $R{1}{'CGTCACCGGGTATTACCTGAATA'} = '6c1 6c3 2c1 hybrid';
 $R{1}{'CGTCACCGAGTATTACCTGAAAA'} = '3c2 hybrid';
 $ref_length[1]=length('CGTCACCGAGTATTACCTGAATA');
-$R{1}{'ref'}='CGTCACCGAGTATTACCTGAATC'; # uss, 7c1, 3c3
+$R{1}{'ref'}='CGTTACCGAGTATTACCTGAATC'; # uss, 7c1, 3c3
 $R{1}{'CGTTACCGGGTATTACCTGAATC'} = 'var';
 
 # Region 2
