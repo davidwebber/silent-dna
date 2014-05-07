@@ -1,4 +1,4 @@
-#This sequence data for FA1090
+#This sequence data for VD300 and VD300-like
 
 # offset between reference sequence and reads
 $offset=91; 
@@ -6,28 +6,40 @@ $offset=91;
 $nRegions=10;
 
 @region_min=(0, 
-    159,
-    187,
+    162,
+    173,
+    195,
     223,
-    253,
-    273,
-    289,
-    315,
-    347,
-    394,
-    474);
+    256,
+    285,
+    318,
+    350,
+    398,
+    483);
+
+@region_max=(0,
+    168,
+    188,
+    210,
+    242,
+    276,
+    308,
+    335,
+    362,
+    450,
+    507);
 
 @region_length=(0, 
-    181-159+1, #make the computer do the subtraction
-    210-187+1,
-    239-223+4,
-    273-253+1,    
-    288-274+1,
-    305-289+1,
-    332-315+1,
-    365-347+1,
-    447-394+25,
-    494-474+1);
+    $region_max[1]-$region_min[1]+1, #make the computer do the subtraction
+    $region_max[2]-$region_min[2]+1,
+    $region_max[3]-$region_min[3]+4,
+    $region_max[4]-$region_min[4]+1,    
+    $region_max[5]-$region_min[5]+1,
+    $region_max[6]-$region_min[6]+1,
+    $region_max[7]-$region_min[7]+1,
+    $region_max[8]-$region_min[8]+1,
+    $region_max[9]-$region_min[9]+25,
+    $region_max[10]-$region_min[10]+1);
 
 $bound[2]  = "ACGGC";           #boundary between regions 1 and 2, original
 $bound[3]  = "GCCGGCGTGGCA";    #boundary between regions 2 and 3

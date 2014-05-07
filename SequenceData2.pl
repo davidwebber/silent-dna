@@ -1,3 +1,5 @@
+# This file is for MID60_L2 (I think)
+
 # offset between reference sequence and reads
 $offset=91; 
 
