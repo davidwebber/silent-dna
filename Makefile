@@ -2,7 +2,25 @@
 today=$(shell date +%b%d)
 #./SilentDNA.pl SampleFile.txt     > sample_$today.csv
 
-all:  MID10_FA1090_${today}.csv  MID31_FA1090_${today}.csv    MID46_FA1090_${today}.csv MID1_3_FA1090_${today}.csv   MID33_FA1090_${today}.csv    MID47_FA1090_${today}.csv MID1_4_FA1090_${today}.csv   MID35_FA1090_${today}.csv    MID4_FA1090_${today}.csv MID14_FA1090_${today}.csv    MID36_FA1090_${today}.csv    MID52_FA1090_${today}.csv MID15_FA1090_${today}.csv    MID37_3_FA1090_${today}.csv  MID54_FA1090_${today}.csv MID16_3_FA1090_${today}.csv  MID37_4_FA1090_${today}.csv  MID58_3_FA1090_${today}.csv MID16_4_FA1090_${today}.csv  MID39_FA1090_${today}.csv    MID58_4_FA1090_${today}.csv MID21_FA1090_${today}.csv    MID40_3_FA1090_${today}.csv  MID59_FA1090_${today}.csv MID23_FA1090_${today}.csv    MID40_4_FA1090_${today}.csv  MID62_FA1090_${today}.csv MID24_FA1090_${today}.csv    MID41_FA1090_${today}.csv    MID67_FA1090_${today}.csv MID25_FA1090_${today}.csv    MID42_FA1090_${today}.csv    MID74_FA1090_${today}.csv MID28_FA1090_${today}.csv    MID43_FA1090_${today}.csv MID30_FA1090_${today}.csv    MID45_FA1090_${today}.csv
+VD300: MID11_VD300_${today}.csv MID13_VD300-like_${today}.csv MID17_VD300-like_${today}.csv MID19_VD300-like_${today}.csv MID20_3_VD300-like_${today}.csv MID20_4_VD300-like_${today}.csv MID32_VD300-like_${today}.csv
+
+FA1090:  MID10_FA1090_${today}.csv  MID31_FA1090_${today}.csv    MID46_FA1090_${today}.csv MID1_3_FA1090_${today}.csv   MID33_FA1090_${today}.csv    MID47_FA1090_${today}.csv MID1_4_FA1090_${today}.csv   MID35_FA1090_${today}.csv    MID4_FA1090_${today}.csv MID14_FA1090_${today}.csv    MID36_FA1090_${today}.csv    MID52_FA1090_${today}.csv MID15_FA1090_${today}.csv    MID37_3_FA1090_${today}.csv  MID54_FA1090_${today}.csv MID16_3_FA1090_${today}.csv  MID37_4_FA1090_${today}.csv  MID58_3_FA1090_${today}.csv MID16_4_FA1090_${today}.csv  MID39_FA1090_${today}.csv    MID58_4_FA1090_${today}.csv MID21_FA1090_${today}.csv    MID40_3_FA1090_${today}.csv  MID59_FA1090_${today}.csv MID23_FA1090_${today}.csv    MID40_4_FA1090_${today}.csv  MID62_FA1090_${today}.csv MID24_FA1090_${today}.csv    MID41_FA1090_${today}.csv    MID67_FA1090_${today}.csv MID25_FA1090_${today}.csv    MID42_FA1090_${today}.csv    MID74_FA1090_${today}.csv MID28_FA1090_${today}.csv    MID43_FA1090_${today}.csv MID30_FA1090_${today}.csv    MID45_FA1090_${today}.csv
+
+MID11_VD300_${today}.csv: SilentDNA.pl
+	./SilentDNA.pl MID11_VD300.fna > MID11_VD300_${today}.csv
+MID13_VD300-like_${today}.csv: SilentDNA.pl
+	./SilentDNA.pl MID13_VD300-like.fna > MID13_VD300-like_${today}.csv
+MID17_VD300-like_${today}.csv: SilentDNA.pl
+	./SilentDNA.pl MID17_VD300-like.fna > MID17_VD300-like_${today}.csv
+MID19_VD300-like_${today}.csv: SilentDNA.pl
+	./SilentDNA.pl MID19_VD300-like.fna > MID19_VD300-like_${today}.csv
+MID20_3_VD300-like_${today}.csv: SilentDNA.pl
+	./SilentDNA.pl MID20_3_VD300-like.fna > MID20_3_VD300-like_${today}.csv
+MID20_4_VD300-like_${today}.csv: SilentDNA.pl
+	./SilentDNA.pl MID20_4_VD300-like.fna > MID20_4_VD300-like_${today}.csv
+MID32_VD300-like_${today}.csv: SilentDNA.pl
+	./SilentDNA.pl MID32_VD300-like.fna > MID32_VD300-like_${today}.csv
+
 
 MID10_FA1090_${today}.csv: SilentDNA.pl
 	./SilentDNA.pl MID10_FA1090.fna   > MID10_FA1090_${today}.csv

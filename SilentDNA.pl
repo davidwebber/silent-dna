@@ -116,11 +116,12 @@ sub getVerdict{
         for (my $i=1; $i<=$nRegions; $i++){
             $subBitString = 0;
             @tokens = split(' ',$result[$i]);
+            #print "\n".@tokens."\n";
             #TODO but what if $results[$i]=' '?  What is the token then?
             $ntokens = @tokens;
             if ($ntokens!=0){  # OR each bitmap together
             	foreach $token (@tokens) {
-                    if (length($token)==3) {
+                    if (length($token)==3 | $token =~ /uss/ | $token =~ /VD300/) {
                         $subBitString = $subBitString | $bitmap{$token};
                         #print $token."\n";
                     } 
@@ -282,7 +283,8 @@ while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=$last_read) ) {
 
     for ($r=$rStart; $r<=$nRegions; $r++){ 
         my $substr;
-        if ( ($r==2) || ($r==3) || ($r==4) || ($r==7) || ($r==8) || ($r==9) || ($r==10) )#index region 10 from the edge of 9 and 10
+        #if ( ($r==2) || ($r==3) || ($r==4) || ($r==7) || ($r==8) || ($r==9) || ($r==10) )#index region 10 from the edge of 9 and 10
+        if ( length($bound[$r]!=0) )
         {
             #find the match position
             if ($seq_obj->seq =~ /$bound[$r]/) {
