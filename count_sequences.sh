@@ -1,4 +1,4 @@
-day=Mar04
+day=May21
 echo --- Region  1 ---
 	cat filtered_*_$day.csv | awk '{ split($0,a,","); print a[3] }'  | sort | uniq -c | sort -n
 echo --- Region  2 ---

@@ -22,7 +22,7 @@ under the headings appropriate for your operating system.
 =Running=
 make -j 4
 ./check_completion.sh
-./remove_short.sh
+./remove_short.sh OR ./remove_short_VD300.sh
 ./count_sequences.sh | tee counted_sequences.txt
 ./boolean_sequences.sh
 ./interpret_boolean.sh

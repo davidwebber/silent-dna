@@ -284,7 +284,7 @@ while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=$last_read) ) {
     for ($r=$rStart; $r<=$nRegions; $r++){ 
         my $substr;
         #if ( ($r==2) || ($r==3) || ($r==4) || ($r==7) || ($r==8) || ($r==9) || ($r==10) )#index region 10 from the edge of 9 and 10
-        if ( length($bound[$r]!=0) )
+        if ( length($bound[$r])!=0) 
         {
             #find the match position
             if ($seq_obj->seq =~ /$bound[$r]/) {
