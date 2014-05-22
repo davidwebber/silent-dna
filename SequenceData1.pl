@@ -29,9 +29,12 @@ $nRegions=10;
     447-394+25,
     494-474+1);
 
+$bound[1]  = "";
 $bound[2]  = "ACGGC";           #boundary between regions 1 and 2, original
 $bound[3]  = "GCCGGCGTGGCA";    #boundary between regions 2 and 3
 $bound[4]  = "AGGCAAATATGTT";   #boundary between regions 3 and 4
+$bound[5]  = "";
+$bound[6]  = "";
 $bound[7]  = "CGTAAACAA";       #boundary between regions 6 and 7
 $bound[8]  = "CTCTCCCTGTGGG";   #boundary between regions 7 and 8
 $bound[9]  = "GGTAAAATGGTTCTGCGGACAGCCGGTT";  #boundary between regions 8 and 9
