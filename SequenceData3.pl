@@ -52,7 +52,8 @@ $bound[5]  = "AGGCAAATATGTT";    #boundary between regions 3 and 4
 $bound[6]  = "GGCGTCGT";         #boundary between regions 3 and 4
 $bound[7]  = "CGTAAACAA";        #boundary between regions 6 and 7
 $bound[8]  = "ACTCTCCCTGTGGG";   #boundary between regions 7 and 8
-$bound[9]  = "";                 #boundary between regions 8 and 9
+#R8- CGGTTCGGTA ... CAGCCGGTTA-R9
+$bound[9]  = "CAGCCGGTTA";                 #boundary between regions 8 and 9
 #AAACGGTTCG at the end of R8 and CAGCCGGTTA right before R9
 $bound[10] = "ACCAAGCACCTGCCGTCAACCTGCCG";    #boundary between regions 9 and 10 for either 1c5or ref
 
@@ -107,8 +108,8 @@ $R{1}{'CACCGAA'}='6c1';
 $R{1}{'ref'}='CACCGAG'; 
 
 # Region 2
-$R{2}{'ACCTGAATCACGGCAA'}='ref 6c3';
-$R{2}{'ACCTGAATCACGGCGA'}='1c1 1c2 2c1 5c1';
+$R{2}{'ACCTGAATCACGGCAA'}='VD300 6c3';
+$R{2}{'ACCTGAATCACGGCGA'}='1c1 1c2 2c1 5c1 ref';
 #$R{2}{'ACCTGAATCACGGCGA'}='1c2';
 $R{2}{'GCCCGAATCACGGCAC'}='1c3 1c5';
 $R{2}{'GCCCGAATCACGGCAA'}='1c4';
@@ -123,15 +124,15 @@ $R{2}{'ACCCGAATAACGGCAA'}='6c1';
 #$R{2}{'ACCTGAATCACGGCAT'}='7c1';
 $R{2}{'ACCTGAATAACGGCGA'}='uss2 uss3';
 #$R{2}{'ACCTGAATAACGGCGA'}='uss3';
-$R{2}{'ref'}='ACCTGAATCACGGCAA'; 
+$R{2}{'ref'}='ACCTGAATCACGGCGA'; 
 
 # Region 3
-$R{3}{'GGAAAACAACACTTCT'}='ref';
+$R{3}{'GGAAAACAACACTTCT'}='VD300';
 $R{3}{'CAAAGACAACGACTCT'}='1c1 5c1';
 $R{3}{'GAAAGACAACACTTCT'}='1c2 1c4 2c2 7c1';
 $R{3}{'GAAAGACAACGGTGA'}='1c3';
 #$R{3}{'GAAAGACAACACTTCT'}='1c4';
-$R{3}{'GGAAAACAACGCTTCT'}='1c5';
+$R{3}{'GGAAAACAACGCTTCT'}='1c5 ref';
 #1c6
 $R{3}{'GGAAGACAACACTTCT'}='2c1';
 #$R{3}{'GAAAGACAACACTTCT'}='2c2';
@@ -142,15 +143,15 @@ $R{3}{'GGAAAACAAGCCT'}='6c3';
 #$R{3}{'GAAAGACAACACTTCT'}='7c1';
 $R{3}{'GGAAGACAACGACAAG'}='uss2';
 $R{3}{'GGAAGACAACGGCGCT'}='uss3';
-$R{3}{'ref'}='GGAAAACAACACTTCT'; 
+$R{3}{'ref'}='GGAAAACAACGCTTCT'; 
 
 # Region 4
-$R{4}{'TCCCCCCCCACCGACATCAA'}='ref';
+$R{4}{'TCCCCCCCCACCGACATCAA'}='VD300';
 $R{4}{'TCCGCTTCAAAAATCAT'}='1c1 5c1 uss3';
 $R{4}{'TCCTCCGACAAAATCAA'}='1c2';
 $R{4}{'TCCCCCGCCGACAAAATCAA'}='1c3';
 $R{4}{'TCCCCCGCCGAAATCAA'}='1c4';
-$R{4}{'TCCTCCCCCACCGACATCAA'}='1c5 2c1';
+$R{4}{'TCCTCCCCCACCGACATCAA'}='1c5 2c1 ref';
 #1c6
 #$R{4}{'TCCTCCCCCACCGACATCAA'}='2c1';
 $R{4}{'TCTTCTTCATCAATCAA'}='2c2 6c1';
@@ -161,7 +162,7 @@ $R{4}{'TCCCCCGCCTCCGACATCAA'}='6c3';
 $R{4}{'TCCCCCCCCTCCGACATCAA'}='7c1';
 $R{4}{'GCCGCCTCCGACATCAA'}='uss2';
 #$R{4}{'TCCGCTTCAAAAATCAT'}='uss3';
-$R{4}{'ref'}='TCCCCCCCCACCGACATCAA'; #1c1, 2c1, 3c1
+$R{4}{'ref'}='TCCTCCCCCACCGACATCAA'; #1c1, 2c1, 3c1
 
 # Region 5
 $R{5}{'AAAGAGGTTGAAGTTAAAAAC'}='VD300';
@@ -282,10 +283,10 @@ $R{10}{'CGACGCAGCATCTGCCGTTTGCATA'}='2c2';
 $R{10}{'CGATAACTTTGATGCCAGCTG'}='5c1';
 $R{10}{'CGACACTTCATCAGCCGGTAAG'}='6c1';
 $R{10}{'CGATAAATCATCTGCCGAA'}='6c2';
-$R{10}{'T'}='6c3';
 #$R{10}{'CGACACTTCATCTGCCGGTAAGTGA'}='7c1';
 #$R{10}{'CGACACTTCATCTGCCGGTAAGTGA'}='uss2';
-$R{10}{'CGAT'}='uss3';
+#$R{10}{'CGAT'}='uss3';
+#$R{10}{'T'}='6c3';
 $R{10}{'ref'}='CGATAAGGCATCTGATGCCAAATGA'; #1c11c2 2c4 3c1
 
 @ref_length=(0,0,0,0,0,0,0,0,0,0,0);
