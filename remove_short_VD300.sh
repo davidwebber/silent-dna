@@ -1,6 +1,6 @@
 #!/bin/bash
 
-day=May21
+day=May27
 
 cat MID11_VD300_$day.csv        | awk '{split($0,a,","); if (a[18]>=480){print $0}}' > filtered_MID11_VD300_$day.csv  
 cat MID13_VD300-like_$day.csv   | awk '{split($0,a,","); if (a[18]>=480){print $0}}' > filtered_MID13_VD300-like_$day.csv 
