@@ -12,7 +12,7 @@
 
 $offset=91; 
 
-$nRegions=10;
+$nRegions=11;
 
 @region_min=(0, 
     162,
@@ -24,7 +24,8 @@ $nRegions=10;
     318,
     350,
     398,
-    483);
+    483,
+    529);
 
 @region_max=(0,
     168,
@@ -36,7 +37,8 @@ $nRegions=10;
     335,
     362,
     450,
-    507);
+    507,
+    541);
 
 @region_length=(0, 
     $region_max[1]-$region_min[1]+1, #make the computer do the subtraction
@@ -48,7 +50,8 @@ $nRegions=10;
     $region_max[7]-$region_min[7]+1,
     $region_max[8]-$region_min[8]+1,
     $region_max[9]-$region_min[9]+25,
-    $region_max[10]-$region_min[10]+1);
+    $region_max[10]-$region_min[10]+1,
+    $region_max[11]-$region_min[11]+1);
 
 $bound[1]  = "CAGCCGT";          #boundary between retions 0 and 1
 $bound[2]  = "TATT";             #boundary between regions 1 and 2, original
@@ -62,6 +65,7 @@ $bound[8]  = "ACTCTCCCTGTGGG";   #boundary between regions 7 and 8
 $bound[9]  = "CAGCCGGTTA";                 #boundary between regions 8 and 9
 #AAACGGTTCG at the end of R8 and CAGCCGGTTA right before R9
 $bound[10] = "ACCAAGCACCTGCCGTCAACCTGCCG";    #boundary between regions 9 and 10 for either 1c5 or ref
+$bound[11] = "TTAAATTT";
 
 $bitmap{'1c1'}     = 0b0000000000000000000001;
 $bitmap{'1c2'}     = 0b0000000000000000000010;
@@ -300,6 +304,10 @@ $R{10}{'CGATGAATCATCTGCCACCTAAGGCAAAT'}='1c4 1c5 uss3 hybrid';
 $R{10}{'CGATGAACCAACTGCCACCTAAGGCAAAT'}='uss3';
 #$R{10}{'T'}='6c3';
 $R{10}{'ref'}='CGATAAGGCATCTGATGCCAAATGA'; #1c11c2 2c4 3c1
+
+$R{11}{'TAAATAAATCAAG'}='ref';  #(both VD300 and VD300like)
+$R{11}{'CAAATAAATCAAG'}='5c1 uss3';
+$R{11}{'CAAATAAATCAAA'}='1c1';
 
 @ref_length=(0,0,0,0,0,0,0,0,0,0,0);
 for ($i=1;$i<=10;$i++){
