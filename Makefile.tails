@@ -1,0 +1,8 @@
+targets: $(shell ls *FA1090.fna | sed 's/fna/tail/')
+
+
+.SUFFIXES:
+.SUFFIXES: .tail .fna
+
+.fna.tail:
+	./print_last_basepairs.sh $<

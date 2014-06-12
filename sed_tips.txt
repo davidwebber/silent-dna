@@ -1,0 +1,13 @@
+Or use this solution with sed:
+
+sed ':a;N;$!ba;s/\n/ /g'
+This will read the whole file in a loop, then replaces the newline(s) with a space.
+
+Update: explanation.
+
+create a label via :a
+append the current and next line to the pattern space via N
+if we are before the last line, branch to the created label $!ba ($! means not to do it on the last line (as there should be one final newline)).
+finally the substitution replaces every newline with a space on the pattern space (which is the whole file).
+
+http://stackoverflow.com/questions/1251999/sed-how-can-i-replace-a-newline-n

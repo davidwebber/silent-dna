@@ -1,0 +1,1 @@
+cat $1 | sed ':a;N;$!ba;s/\n//g' | sed 's/>H/\n>H/g' | sed 's/^.*\(.\{90\}\)$/\1/' > `basename -s .fna $1`.tail

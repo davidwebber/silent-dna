@@ -1,4 +1,5 @@
 #This sequence data for VD300 = ref
+# MID11_VD300.fna
 
 #VD300-like keeps its tag.  VD300 gets tagged "ref"
 
