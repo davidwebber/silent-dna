@@ -17,8 +17,9 @@ no warnings ('substr');
 #no warnings ('uninitialized', 'substr');
 #require 'SequenceData1.pl';
 #require 'SequenceData2.pl';
-#require 'SequenceData3.pl';
-require 'SequenceData4.pl';
+#require 'SequenceData3.pl'; #VD300-like MID13, 17, 19, 20, 32
+require 'SequenceData4.pl';  #VD300 MID11
+
 
 $debug=0; #set to 1 or 2 for some debugging output
 
@@ -100,7 +101,7 @@ sub getVerdict{
     my $resultString = join(",",@result);
     #print $resultString."\n";
     my $nRef =()= $resultString =~ /ref/gi;
-    if ($nRef==10){
+    if ($nRef==$nRegions){
         #if all are ref, print ref
         return "ref";
     } elsif ($resultString =~ /var/){
@@ -124,6 +125,7 @@ sub getVerdict{
             	foreach $token (@tokens) {
                     if (length($token)==3 | $token =~ /uss/ | $token =~ /VD300/) {
                         $subBitString = $subBitString | $bitmap{$token};
+                        #print "debug ",$token, " ", $bitmap{$token}, "\n";
                         #print $token."\n";
                     } 
                     if ($token =~ /short/) {
@@ -245,7 +247,7 @@ sub min_distance{
 
 
 #header
-print "counter,ID,region1,region2,region3,region4,region5,region6,region7,region8,region9,region10,nVar,nEmpty,verdict,altVerdict,P_minus,basepairs\n";
+print $header; 
 my @result;
 
 $counter=1;
@@ -289,6 +291,7 @@ while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=$last_read) ) {
         {
             #find the match position
             if ($seq_obj->seq =~ /$bound[$r]/) {
+                #$debug=0;
                 if ( $debug>=1 ){
                     print "region ".($r-1)." to ".$r." boundary found between @- and @+. ";
                     print "region ".$r." begins at ".($region_min[$r]-$this_offset-$fudge_factor+$length_shift).". delta=";
@@ -297,13 +300,14 @@ while ( ($seq_obj = $seqio_obj->next_seq) && ($counter<=$last_read) ) {
                 if (abs("@+"-$region_min[$r]) < $boundary_search_width && $r!=10){
                    $length_shift = "@+" - ($region_min[$r]-$this_offset-1); #assignment, not modification;
                 }
-                #region 10 boundary allowed to scan over the whole sequence
-                elsif ( $r==10 ){
+                #region 10 boundary allowed to scan over the whole sequence, b/c region 9 is super-variable
+                elsif ( $r=>10 ){
                    $length_shift = "@+" - ($region_min[$r]-$this_offset-1); #assignment, not modification;
                 }
                 if ( $debug>=1) {
                     print $length_shift."\n";
                 }
+                #$debug=0;
             }
         } 
         $substr = substr $seq_obj->seq, $region_min[$r]-$this_offset-$fudge_factor+$length_shift, $region_length[$r]+2*$fudge_factor;

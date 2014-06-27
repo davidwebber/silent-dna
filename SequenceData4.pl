@@ -9,6 +9,8 @@ $offset=91;
 
 $nRegions=11;
 
+$header="counter,ID,region1,region2,region3,region4,region5,region6,region7,region8,region9,region10,region11,nVar,nEmpty,verdict,altVerdict,P_minus,basepairs\n";
+
 @region_min=(0, 
     162,
     173,
@@ -69,13 +71,15 @@ $bitmap{'1c4'}     = 0b0000000000000000001000;
 $bitmap{'1c5'}     = 0b0000000000000000010000;
 $bitmap{'2c1'}     = 0b0000000000000000100000;
 $bitmap{'2c2'}     = 0b0000000000000001000000;
-$bitmap{'2c3'}     = 0b0000000000000010000000;
-$bitmap{'2c4'}     = 0b0000000000000100000000;
-$bitmap{'2c5'}     = 0b0000000000001000000000;
-$bitmap{'2c6'}     = 0b0000000000010000000000;
-$bitmap{'3c1'}     = 0b0000000000100000000000;
-$bitmap{'3c2'}     = 0b0000000001000000000000;
-$bitmap{'3c3'}     = 0b0000000010000000000000;
+#$bitmap{'2c3'}    = 0b0000000000000010000000;
+#$bitmap{'2c4'}    = 0b0000000000000100000000;
+#$bitmap{'2c5'}    = 0b0000000000001000000000;
+#$bitmap{'2c6'}    = 0b0000000000010000000000;
+#$bitmap{'3c1'}    = 0b0000000000100000000000;
+#$bitmap{'3c2'}    = 0b0000000001000000000000;
+#$bitmap{'3c3'}    = 0b0000000010000000000000;
+$bitmap{'1c6'}     = 0b0000000000000010000000; #<----- new
+$bitmap{'5c1'}     = 0b0000000010000000000000; #<----- new
 $bitmap{'6c1'}     = 0b0000000100000000000000;
 $bitmap{'6c2'}     = 0b0000001000000000000000;
 $bitmap{'6c3'}     = 0b0000010000000000000000;
@@ -302,9 +306,10 @@ $R{10}{'ref'}='CGATAAGGCATCTGATGCCAAATGA'; #1c11c2 2c4 3c1
 $R{11}{'TAAATAAATCAAG'}='ref';  #(both VD300 and VD300like)
 $R{11}{'CAAATAAATCAAG'}='5c1 uss3';
 $R{11}{'CAAATAAATCAAA'}='1c1';
+$R{11}{'ref'}='TAAATAAATCAAG';
 
-@ref_length=(0,0,0,0,0,0,0,0,0,0,0);
-for ($i=1;$i<=10;$i++){
+@ref_length=(0,0,0,0,0,0,0,0,0,0,0,0,0); #note must be $nRegions+1
+for ($i=1;$i<=$nRegions;$i++){
   $ref_length[$i]=length($R{$i}{'ref'});
 }
 

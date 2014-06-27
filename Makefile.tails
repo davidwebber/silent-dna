@@ -1,4 +1,6 @@
-targets: $(shell ls *FA1090.fna | sed 's/fna/tail/')
+
+#targets: $(shell ls *FA1090.fna | sed 's/fna/tail/')
+targets: $(shell ls *VD300*.fna | sed 's/fna/tail/')
 
 
 .SUFFIXES:

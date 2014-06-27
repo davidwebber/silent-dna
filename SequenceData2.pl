@@ -5,6 +5,8 @@ $offset=91;
 
 $nRegions=10;
 
+$header="counter,ID,region1,region2,region3,region4,region5,region6,region7,region8,region9,region10,nVar,nEmpty,verdict,altVerdict,P_minus,basepairs\n";
+
 @region_min=(0, 
     159,
     187,
