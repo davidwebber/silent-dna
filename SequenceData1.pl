@@ -31,7 +31,7 @@ $header="counter,ID,region1,region2,region3,region4,region5,region6,region7,regi
     447-394+25,
     494-474+1);
 
-$bound[1]  = "";
+$bound[1]  = "AAATCAG";                #boundary at the start of region 1
 $bound[2]  = "ACGGC";           #boundary between regions 1 and 2, original
 $bound[3]  = "GCCGGCGTGGCA";    #boundary between regions 2 and 3
 $bound[4]  = "AGGCAAATATGTT";   #boundary between regions 3 and 4

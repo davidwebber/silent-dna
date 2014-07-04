@@ -55,7 +55,7 @@ $header="counter,ID,region1,region2,region3,region4,region5,region6,region7,regi
     $region_max[10]-$region_min[10]+1,
     $region_max[11]-$region_min[11]+1);
 
-$bound[1]  = "CAGCCGT";          #boundary between retions 0 and 1
+$bound[1]  = "CAGCCGT";          #boundary between regions 0 and 1
 $bound[2]  = "TATT";             #boundary between regions 1 and 2, original
 $bound[3]  = "ATGGCC";           #boundary between regions 2 and 3
 $bound[4]  = "GCCGGCGGGCA";      #boundary between regions 3 and 4

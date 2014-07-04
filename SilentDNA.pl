@@ -15,10 +15,10 @@ use Bio::SeqIO;
 use warnings;
 no warnings ('substr');
 #no warnings ('uninitialized', 'substr');
-#require 'SequenceData1.pl';
+require 'SequenceData1.pl';
 #require 'SequenceData2.pl';
 #require 'SequenceData3.pl'; #VD300-like MID13, 17, 19, 20, 32
-require 'SequenceData4.pl';  #VD300 MID11
+#require 'SequenceData4.pl';  #VD300 MID11
 
 
 $debug=0; #set to 1 or 2 for some debugging output
