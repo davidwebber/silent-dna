@@ -1,6 +1,6 @@
 day=Jun26
-#header="filtered_"
-header=""
+header="filtered_"
+#header=""
 echo --- Region  1 ---
 	cat $header*_$day.csv | awk '{ split($0,a,","); print a[3] }'  | sort | uniq -c | sort -n
 echo --- Region  2 ---
